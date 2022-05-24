@@ -1,5 +1,3 @@
-// import  from '../actions';
-
 const INITIAL_STATE = {
   name: '',
   assertions: '',
@@ -7,11 +5,11 @@ const INITIAL_STATE = {
   gravatarEmail: '',
 };
 
-function reducer(state = INITIAL_STATE, action) {
+const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   default:
     return state;
   }
-}
+};
 
-export default reducer;
+export default player;

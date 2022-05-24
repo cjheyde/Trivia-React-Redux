@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import saveTokenAction from '../redux/actions';
 // import logo from '../trivia.png';
 // import '../App.css';
 
@@ -33,11 +35,20 @@ class Login extends Component {
           && name.length > 0 ? enable : disable });
       }
 
-      onSubmit = (event) => {
-        event.preventDefault();
-        const { history /* sendEmail */ } = this.props;
-        // const { email } = this.state;
-        // sendEmail(email);
+      getToken = async () => {
+        const URL = 'https://opentdb.com/api_token.php?command=request';
+        const response = await fetch(URL);
+        const result = await response.json();
+        console.log(result.token);
+        return result.token;
+      }
+
+      onSubmit = async () => {
+        const { saveToken, history } = this.props;
+        const token = await this.getToken();
+        localStorage.setItem('token', token);
+        saveToken(token);
+
         history.push('/trivia');
       }
 
@@ -49,7 +60,7 @@ class Login extends Component {
               <img src={ logo } className="App-logo" alt="logo" />
               </header> */}
 
-            <form onSubmit={ this.onSubmit } className="login">
+            <form className="login">
               <label htmlFor="email">
                 Email
                 <input
@@ -75,10 +86,11 @@ class Login extends Component {
                 />
               </label>
               <button
-                type="submit"
+                type="button"
                 name="login-button"
                 disabled={ loginButtonDisabled }
                 data-testid="btn-play"
+                onClick={ this.onSubmit }
               >
                 Entrar
               </button>
@@ -89,17 +101,19 @@ class Login extends Component {
       }
 }
 
-/* const mapDispatchToProps = (dispatch) => ({
-  sendEmail: (email) => dispatch(saveEmail(email)),
-}); */
+const mapDispatchToProps = (dispatch) => ({
+  saveToken: (token) => dispatch(saveTokenAction(token)),
+});
 
-export default Login;
+const mapStateToProps = (state) => ({
+  getToken: state.token.token,
+});
 
-// connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  // sendEmail: PropTypes.func.isRequired,
+  saveToken: PropTypes.func.isRequired,
 };
