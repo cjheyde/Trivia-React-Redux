@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import saveTokenAction from '../redux/actions';
 // import logo from '../trivia.png';
@@ -44,12 +45,11 @@ class Login extends Component {
       }
 
       onSubmit = async () => {
-        const { saveToken, history } = this.props;
+        const { saveToken } = this.props;
         const token = await this.getToken();
         localStorage.setItem('token', token);
         saveToken(token);
-
-        history.push('/trivia');
+        // history.push('/trivia');
       }
 
       render() {
@@ -85,17 +85,27 @@ class Login extends Component {
                   data-testid="input-player-name"
                 />
               </label>
+              <Link to="/trivia">
+                <button
+                  type="button"
+                  name="login-button"
+                  disabled={ loginButtonDisabled }
+                  data-testid="btn-play"
+                  onClick={ this.onSubmit }
+                >
+                  Entrar
+                </button>
+              </Link>
+            </form>
+            <Link to="/config">
               <button
                 type="button"
-                name="login-button"
-                disabled={ loginButtonDisabled }
-                data-testid="btn-play"
-                onClick={ this.onSubmit }
+                name="config-button"
+                data-testid="btn-settings"
               >
-                Entrar
+                Configurações
               </button>
-            </form>
-
+            </Link>
           </div>
         );
       }
