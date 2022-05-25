@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import saveTokenAction from '../redux/actions';
+import { saveTokenAction, savePlayerNameAction,
+  savePlayerEmailAction } from '../redux/actions/index';
 // import logo from '../trivia.png';
 // import '../App.css';
-
 // codado em pair programing All - Carla Heyde/Nata Abrahão/Paulo Bruno/Priscila Nogueira/Elaine Costa
 
 class Login extends Component {
@@ -44,11 +44,13 @@ class Login extends Component {
       }
 
       onSubmit = async () => {
-        const { saveToken, history } = this.props;
+        const { saveToken, history, savePlayerName, savePlayerEmail } = this.props;
+        const { name, email } = this.state;
         const token = await this.getToken();
         localStorage.setItem('token', token);
         saveToken(token);
-
+        savePlayerName(name);
+        savePlayerEmail(email);
         history.push('/trivia');
       }
 
@@ -103,6 +105,8 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   saveToken: (token) => dispatch(saveTokenAction(token)),
+  savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
+  savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
 });
 
 const mapStateToProps = (state) => ({
@@ -116,4 +120,6 @@ Login.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   saveToken: PropTypes.func.isRequired,
+  savePlayerName: PropTypes.func.isRequired,
+  savePlayerEmail: PropTypes.func.isRequired,
 };
