@@ -4,7 +4,7 @@ class Trivia extends Component {
   render() {
     return (
       <h1>
-        adad
+        Trivia
       </h1>
     );
   }

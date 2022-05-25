@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import saveTokenAction from '../redux/actions';
-// import logo from '../trivia.png';
-// import '../App.css';
-
 // codado em pair programing All - Carla Heyde/Nata Abrahão/Paulo Bruno/Priscila Nogueira/Elaine Costa
 
 class Login extends Component {
@@ -40,26 +34,18 @@ class Login extends Component {
         const URL = 'https://opentdb.com/api_token.php?command=request';
         const response = await fetch(URL);
         const result = await response.json();
-        console.log(result.token);
         return result.token;
       }
 
       onSubmit = async () => {
-        const { saveToken } = this.props;
         const token = await this.getToken();
         localStorage.setItem('token', token);
-        saveToken(token);
-        // history.push('/trivia');
       }
 
       render() {
         const { email, name, loginButtonDisabled } = this.state;
         return (
           <div className="App">
-            {/*            <header className="App-header">
-              <img src={ logo } className="App-logo" alt="logo" />
-              </header> */}
-
             <form className="login">
               <label htmlFor="email">
                 Email
@@ -111,19 +97,4 @@ class Login extends Component {
       }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  saveToken: (token) => dispatch(saveTokenAction(token)),
-});
-
-const mapStateToProps = (state) => ({
-  getToken: state.token.token,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
-
-Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-  saveToken: PropTypes.func.isRequired,
-};
+export default Login;
