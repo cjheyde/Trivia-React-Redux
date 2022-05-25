@@ -4,24 +4,6 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
 class Header extends Component {
-  // constructor() {
-  //   super();
-  // }
-
-  // componentDidMount() {
-  //   const emailGrava
-  // }
-
-  // getGravatar = async (gravatarEmail) => {
-  //       const { gravatarEmailFromStore } = this.props;
-  // const hashGerada = md5(gravatarEmailFromStore).toString();
-  //   const URL = `https://www.gravatar.com/avatar/${hashGerada}`;
-  //   const response = await fetch(URL);
-  //   const result = await response.json();
-  //   console.log(result);
-  //   return result;
-  // }
-
   render() {
     const { gravatarEmailFromStore, nameFromStore, scoreFromStore } = this.props;
     console.log(gravatarEmailFromStore, nameFromStore, scoreFromStore);
