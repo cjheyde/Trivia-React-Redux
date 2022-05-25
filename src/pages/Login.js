@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { savePlayerNameAction,
+  savePlayerEmailAction } from '../redux/actions/index';
+// import logo from '../trivia.png';
+// import '../App.css';
 // codado em pair programing All - Carla Heyde/Nata Abrahão/Paulo Bruno/Priscila Nogueira/Elaine Costa
 
 class Login extends Component {
@@ -38,8 +43,12 @@ class Login extends Component {
       }
 
       onSubmit = async () => {
+        const { savePlayerName, savePlayerEmail } = this.props;
+        const { name, email } = this.state;
         const token = await this.getToken();
         localStorage.setItem('token', token);
+        savePlayerName(name);
+        savePlayerEmail(email);
       }
 
       render() {
@@ -97,4 +106,14 @@ class Login extends Component {
       }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
+  savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
+
+Login.propTypes = {
+  savePlayerName: PropTypes.func.isRequired,
+  savePlayerEmail: PropTypes.func.isRequired,
+};

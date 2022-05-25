@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import Header from '../components/Header';
 
 class Trivia extends Component {
   render() {
     return (
-      <h1>
-        Trivia
-      </h1>
+      <header>
+        <Header />
+      </header>
     );
   }
 }
