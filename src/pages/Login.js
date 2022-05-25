@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { saveTokenAction, savePlayerNameAction,
+import { savePlayerNameAction,
   savePlayerEmailAction } from '../redux/actions/index';
 // import logo from '../trivia.png';
 // import '../App.css';
@@ -40,29 +39,22 @@ class Login extends Component {
         const URL = 'https://opentdb.com/api_token.php?command=request';
         const response = await fetch(URL);
         const result = await response.json();
-        console.log(result.token);
         return result.token;
       }
 
       onSubmit = async () => {
-        const { saveToken, history, savePlayerName, savePlayerEmail } = this.props;
+        const { savePlayerName, savePlayerEmail } = this.props;
         const { name, email } = this.state;
         const token = await this.getToken();
         localStorage.setItem('token', token);
-        saveToken(token);
         savePlayerName(name);
         savePlayerEmail(email);
-        history.push('/trivia');
       }
 
       render() {
         const { email, name, loginButtonDisabled } = this.state;
         return (
           <div className="App">
-            {/*            <header className="App-header">
-              <img src={ logo } className="App-logo" alt="logo" />
-              </header> */}
-
             <form className="login">
               <label htmlFor="email">
                 Email
@@ -115,22 +107,13 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  saveToken: (token) => dispatch(saveTokenAction(token)),
   savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
   savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
 });
 
-const mapStateToProps = (state) => ({
-  getToken: state.token.token,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-  saveToken: PropTypes.func.isRequired,
   savePlayerName: PropTypes.func.isRequired,
   savePlayerEmail: PropTypes.func.isRequired,
 };
