@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
 
-class Trivia extends Component {
+class Game extends Component {
   render() {
     return (
       <>
@@ -13,4 +13,4 @@ class Trivia extends Component {
   }
 }
 
-export default Trivia;
+export default Game;
