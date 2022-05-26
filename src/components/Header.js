@@ -22,7 +22,7 @@ class Header extends Component {
       const playerScore = constantValue + (timer * Number(difficultyValue[0]));
       this.setState((prevState) => (
         { scorePoints: [...prevState.scorePoints + playerScore] }));
-      localStorage.setItem('score', scorePoints);
+      localStorage.setItem('score', JSON.stringify(scorePoints));
       return scorePoints;
     }
 
@@ -30,7 +30,7 @@ class Header extends Component {
       const playerScore = constantValue + (timer * Number(difficultyValue[1]));
       this.setState((prevState) => (
         { scorePoints: [...prevState.scorePoints + playerScore] }));
-      localStorage.setItem('score', scorePoints);
+      localStorage.setItem('score', JSON.stringify(scorePoints));
       return scorePoints;
     }
 
@@ -38,7 +38,7 @@ class Header extends Component {
       const playerScore = constantValue + (timer * Number(difficultyValue[2]));
       this.setState((prevState) => (
         { scorePoints: [...prevState.scorePoints + playerScore] }));
-      localStorage.setItem('score', scorePoints);
+      localStorage.setItem('score', JSON.stringify(scorePoints));
       return scorePoints;
     }
   }
