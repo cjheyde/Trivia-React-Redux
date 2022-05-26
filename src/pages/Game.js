@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
 
-class Trivia extends Component {
+class Game extends Component {
   render() {
     return (
       <header>
@@ -11,4 +11,4 @@ class Trivia extends Component {
   }
 }
 
-export default Trivia;
+export default Game;
