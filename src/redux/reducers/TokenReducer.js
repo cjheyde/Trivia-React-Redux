@@ -1,17 +1,9 @@
-const INITIAL_STATE = {
-  ranking: [
-    { name: '', score: 0, picture: '' },
-  ],
-  token: '',
-};
+const INITIAL_STATE = '';
 
 const token = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case 'TOKEN':
-    return {
-      ...state,
-      token: action.token,
-    };
+    return action.token;
   default:
     return state;
   }
