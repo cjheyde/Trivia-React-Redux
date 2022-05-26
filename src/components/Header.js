@@ -48,7 +48,7 @@ class Header extends Component {
     // console.log(gravatarEmailFromStore, nameFromStore);
     const hashGerada = md5(gravatarEmailFromStore).toString();
     return (
-      <div>
+      <header>
         <img
           src={ `https://www.gravatar.com/avatar/${hashGerada}` }
           alt="Imagem do jogador"
@@ -68,7 +68,7 @@ class Header extends Component {
             {this.myScore}
           </div>
         </fieldset>
-      </div>
+      </header>
     );
   }
 }
