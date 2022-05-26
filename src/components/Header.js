@@ -44,7 +44,7 @@ class Header extends Component {
   }
 
   render() {
-    const { gravatarEmailFromStore, nameFromStore, scoreFromStore } = this.props;
+    const { gravatarEmailFromStore, nameFromStore } = this.props;
     console.log(gravatarEmailFromStore, nameFromStore, scoreFromStore);
     const hashGerada = md5(gravatarEmailFromStore).toString();
     return (
@@ -76,7 +76,7 @@ class Header extends Component {
 const mapStateToProps = (store) => ({
   gravatarEmailFromStore: store.player.gravatarEmail,
   nameFromStore: store.player.name,
-  scoreFromStore: store.player.score,
+  // scoreFromStore: store.player.score,
   difficulty: store.player.difficulty,
 });
 
