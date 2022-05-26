@@ -1,5 +1,3 @@
-export const saveTokenAction = (token) => ({ type: 'TOKEN', token });
-
 export const SET_PLAYER_NAME = 'SET_PLAYER_NAME';
 export const SET_PLAYER_EMAIL = 'SET_PLAYER_EMAIL';
 
