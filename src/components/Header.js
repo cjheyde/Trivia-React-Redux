@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 class Header extends Component {
   render() {
     const { gravatarEmailFromStore, nameFromStore, scoreFromStore } = this.props;
-    console.log(gravatarEmailFromStore, nameFromStore, scoreFromStore);
+    // console.log(gravatarEmailFromStore, nameFromStore, scoreFromStore);
     const hashGerada = md5(gravatarEmailFromStore).toString();
     return (
-      <div>
+      <header>
         <img
           src={ `https://www.gravatar.com/avatar/${hashGerada}` }
           alt="Imagem do jogador"
@@ -29,7 +29,7 @@ class Header extends Component {
             {scoreFromStore}
           </div>
         </fieldset>
-      </div>
+      </header>
     );
   }
 }
