@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getQuestionsFromAPI from '../services/api';
 import { savePlayerEmailAction, savePlayerNameAction } from '../redux/actions';
+import Timer from './Timer';
 
 class Questions extends Component {
   constructor() {
@@ -90,6 +91,7 @@ class Questions extends Component {
               </button>
             )
         ))}
+        <Timer />
       </div>);
   }
 
@@ -129,6 +131,7 @@ class Questions extends Component {
               </button>
             )
         ))}
+        <Timer />
       </div>);
   }
 
