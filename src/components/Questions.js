@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getQuestionsFromAPI from '../services/api';
 import { savePlayerEmailAction, savePlayerNameAction } from '../redux/actions';
+import './Questions.css';
 
 class Questions extends Component {
   constructor() {
@@ -17,6 +18,8 @@ class Questions extends Component {
       type: '',
       rightAnswer: '',
       isFetching: false,
+      okAnswer: false,
+      nextButton: false,
     };
   }
 
@@ -61,9 +64,13 @@ class Questions extends Component {
     return shuffledArray;
   }
 
+  onClickAnswer = () => {
+    this.setState({ okAnswer: true, nextButton: true });
+  }
+
   renderMultiple = () => {
     const shuffledAnswers = this.shuffleAnswers();
-    const { rightAnswer } = this.state;
+    const { rightAnswer, okAnswer } = this.state;
 
     return (
       <div data-testid="answer-options">
@@ -71,20 +78,25 @@ class Questions extends Component {
           answer === rightAnswer
             ? (
               <button
+                id="correctAnswer"
                 type="button"
-                className="correctAnswer"
+                className={ okAnswer && 'correctAnswer' }
                 data-testid="correct-answer"
                 key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+
               >
                 { answer }
               </button>
             )
             : (
               <button
+                id="wrongAnswer"
                 type="button"
-                className="wrongAnswer"
+                className={ okAnswer && 'wrongAnswer' }
                 data-testid={ `wrong-answer-${mapIndex}` }
                 key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
               >
                 { answer }
               </button>
@@ -102,7 +114,7 @@ class Questions extends Component {
 
   renderBoolean = () => {
     const shuffledAnswers = this.shuffleBoolean();
-    const { rightAnswer } = this.state;
+    const { rightAnswer, okAnswer } = this.state;
 
     return (
       <div data-testid="answer-options">
@@ -110,20 +122,24 @@ class Questions extends Component {
           answer === rightAnswer
             ? (
               <button
+                id="correctAnswer"
+                className={ okAnswer && 'correctAnswer' }
                 type="button"
-                className="correctAnswer"
                 data-testid="correct-answer"
                 key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
               >
                 { answer }
               </button>
             )
             : (
               <button
+                id="wrongAnswer"
                 type="button"
-                className="wrongAnswer"
+                className={ okAnswer && 'wrongAnswer' }
                 data-testid="wrong-answer"
                 key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
               >
                 { answer }
               </button>
@@ -133,11 +149,20 @@ class Questions extends Component {
   }
 
   changeQuestion = () => {
+    const { history } = this.props;
+    const { index } = this.state;
+    const FOUR = 4;
+
     this.setState((prevState) => ({
       index: prevState.index + 1,
+      okAnswer: false,
+      nextButton: false,
     }), () => {
       this.changeState();
     });
+    if (index === FOUR) {
+      history.push('/feedback');
+    }
   }
 
   changeState = () => {
@@ -152,7 +177,8 @@ class Questions extends Component {
   }
 
   render() {
-    const { question, difficulty, category, type, index, isFetching } = this.state;
+    const { question,
+      difficulty, category, type, index, isFetching, nextButton } = this.state;
     const MAX_INDEX_VALUE = 4;
     return (
       isFetching ? <h1>Loading</h1>
@@ -166,22 +192,15 @@ class Questions extends Component {
               ? this.renderMultiple()
               : this.renderBoolean() }
 
-            { index <= MAX_INDEX_VALUE
-              ? (
+            { index <= MAX_INDEX_VALUE && nextButton
+              && (
                 <button
                   type="button"
                   onClick={ this.changeQuestion }
                 >
                   Next
                 </button>
-              )
-              : (
-                <button
-                  type="button"
-                >
-                  Feedback
-                </button>
-              ) }
+              )}
           </main>
         )
     );
