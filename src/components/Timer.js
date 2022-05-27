@@ -17,6 +17,7 @@ class Timer extends React.Component {
     const { seconds } = this.state;
     const timeLeftVar = this.secondsToTime(seconds);
     this.setState({ time: timeLeftVar });
+    this.startTimer();
   }
 
   secondsToTime(secs) {
@@ -60,12 +61,6 @@ class Timer extends React.Component {
     const { time } = this.state;
     return (
       <div>
-        <button
-          type="button"
-          onClick={ this.startTimer }
-        >
-          Start
-        </button>
         Tempo:
         {' '}
         { time.s }
