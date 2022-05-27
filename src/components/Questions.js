@@ -18,6 +18,7 @@ class Questions extends Component {
       type: '',
       rightAnswer: '',
       isFetching: false,
+      okAnswer: false,
     };
   }
 
@@ -62,19 +63,9 @@ class Questions extends Component {
     return shuffledArray;
   }
 
-  /*     getButtonColor = (resposta) => {
-      // ou precisa fazer um find?
-      // const correctAnswer = questionsResponse.results.find((eachAnswer) => eachAnswer.correct_answer === resposta.correct_answer)
-
-      if (questionsResponse.results[resposta].correct_answer) {
-        return '3px solid rgb(6, 240, 15)';
-      }
-      return '3px solid red';
-    }; */
-
   renderMultiple = () => {
     const shuffledAnswers = this.shuffleAnswers();
-    const { rightAnswer } = this.state;
+    const { rightAnswer, okAnswer } = this.state;
 
     return (
       <div data-testid="answer-options">
@@ -82,20 +73,24 @@ class Questions extends Component {
           answer === rightAnswer
             ? (
               <button
+                id="correctAnswer"
                 type="button"
-                className="correctAnswer"
+                className={ okAnswer && 'correctAnswer' }
                 data-testid="correct-answer"
                 key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
               >
                 { answer }
               </button>
             )
             : (
               <button
+                id="wrongAnswer"
                 type="button"
-                className="wrongAnswer"
+                className={ okAnswer && 'wrongAnswer' }
                 data-testid={ `wrong-answer-${mapIndex}` }
                 key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
               >
                 { answer }
               </button>
@@ -113,7 +108,7 @@ class Questions extends Component {
 
   renderBoolean = () => {
     const shuffledAnswers = this.shuffleBoolean();
-    const { rightAnswer } = this.state;
+    const { rightAnswer, okAnswer } = this.state;
 
     return (
       <div data-testid="answer-options">
@@ -121,22 +116,24 @@ class Questions extends Component {
           answer === rightAnswer
             ? (
               <button
+                id="correctAnswer"
+                className={ okAnswer && 'correctAnswer' }
                 type="button"
-                className="correctAnswer"
                 data-testid="correct-answer"
                 key={ `answerBtn${mapIndex}` }
-                // style={ { border: this.getButtonColor() } }
+                onClick={ this.onClickAnswer }
               >
                 { answer }
               </button>
             )
             : (
               <button
+                id="wrongAnswer"
                 type="button"
-                className="wrongAnswer"
+                className={ okAnswer && 'wrongAnswer' }
                 data-testid="wrong-answer"
                 key={ `answerBtn${mapIndex}` }
-                // style={ { border: this.getButtonColor() } }
+                onClick={ this.onClickAnswer }
               >
                 { answer }
               </button>
