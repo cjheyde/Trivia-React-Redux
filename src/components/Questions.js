@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getQuestionsFromAPI from '../services/api';
 import { savePlayerEmailAction, savePlayerNameAction } from '../redux/actions';
+import './Questions.css';
 
 class Questions extends Component {
   constructor() {
@@ -61,6 +62,16 @@ class Questions extends Component {
     return shuffledArray;
   }
 
+  /*     getButtonColor = (resposta) => {
+      // ou precisa fazer um find?
+      // const correctAnswer = questionsResponse.results.find((eachAnswer) => eachAnswer.correct_answer === resposta.correct_answer)
+
+      if (questionsResponse.results[resposta].correct_answer) {
+        return '3px solid rgb(6, 240, 15)';
+      }
+      return '3px solid red';
+    }; */
+
   renderMultiple = () => {
     const shuffledAnswers = this.shuffleAnswers();
     const { rightAnswer } = this.state;
@@ -114,6 +125,7 @@ class Questions extends Component {
                 className="correctAnswer"
                 data-testid="correct-answer"
                 key={ `answerBtn${mapIndex}` }
+                // style={ { border: this.getButtonColor() } }
               >
                 { answer }
               </button>
@@ -124,6 +136,7 @@ class Questions extends Component {
                 className="wrongAnswer"
                 data-testid="wrong-answer"
                 key={ `answerBtn${mapIndex}` }
+                // style={ { border: this.getButtonColor() } }
               >
                 { answer }
               </button>
