@@ -17,6 +17,9 @@ class Questions extends Component {
       type: '',
       rightAnswer: '',
       isFetching: false,
+      timer: 0,
+      seconds: 30,
+      isButtonDisabled: false,
     };
   }
 
@@ -39,6 +42,7 @@ class Questions extends Component {
           rightAnswer: questions.results[0].correct_answer,
           isFetching: false,
         });
+        this.startTimer();
       }
     });
   }
@@ -63,33 +67,32 @@ class Questions extends Component {
 
   renderMultiple = () => {
     const shuffledAnswers = this.shuffleAnswers();
-    const { rightAnswer } = this.state;
-
+    const { rightAnswer, isButtonDisabled } = this.state;
     return (
       <div data-testid="answer-options">
-        { shuffledAnswers.map((answer, mapIndex) => (
+        {shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
               <button
                 type="button"
                 className="correctAnswer"
                 data-testid="correct-answer"
+                disabled={ isButtonDisabled }
                 key={ `answerBtn${mapIndex}` }
               >
-                { answer }
-              </button>
-            )
+                {answer}
+              </button>)
             : (
               <button
                 type="button"
                 className="wrongAnswer"
                 data-testid={ `wrong-answer-${mapIndex}` }
+                disabled={ isButtonDisabled }
                 key={ `answerBtn${mapIndex}` }
               >
-                { answer }
+                {answer}
               </button>
-            )
-        )) }
+            )))}
       </div>);
   }
 
@@ -102,33 +105,32 @@ class Questions extends Component {
 
   renderBoolean = () => {
     const shuffledAnswers = this.shuffleBoolean();
-    const { rightAnswer } = this.state;
-
+    const { rightAnswer, isButtonDisabled } = this.state;
     return (
       <div data-testid="answer-options">
-        { shuffledAnswers.map((answer, mapIndex) => (
+        {shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
               <button
                 type="button"
                 className="correctAnswer"
                 data-testid="correct-answer"
+                disabled={ isButtonDisabled }
                 key={ `answerBtn${mapIndex}` }
               >
-                { answer }
-              </button>
-            )
+                {answer}
+              </button>)
             : (
               <button
                 type="button"
                 className="wrongAnswer"
                 data-testid="wrong-answer"
+                disabled={ isButtonDisabled }
                 key={ `answerBtn${mapIndex}` }
               >
-                { answer }
+                {answer}
               </button>
-            )
-        )) }
+            )))}
       </div>);
   }
 
@@ -148,25 +150,52 @@ class Questions extends Component {
       category: questionsArray[index].category,
       type: questionsArray[index].type,
       rightAnswer: questionsArray[index].correct_answer,
+      seconds: 30,
     });
+    clearInterval(this.timer);
+    this.startTimer();
+  }
+
+  startTimer = () => {
+    const { seconds } = this.state;
+    let { timer } = this.state;
+    const MIL = 1000;
+    if (timer === 0 && seconds > 0) {
+      timer = setInterval(this.countDown, MIL);
+    }
+  }
+
+  countDown = () => {
+    const { seconds } = this.state;
+    if (seconds > 0) {
+      this.setState({
+        seconds: seconds - 1,
+      });
+    }
+    if (seconds === 0) {
+      clearInterval(this.timer);
+    }
+  }
+
+  setButtonDisabled = () => {
+    this.setState({ isButtonDisabled: true });
   }
 
   render() {
-    const { question, difficulty, category, type, index, isFetching } = this.state;
+    const { question, difficulty, category, type,
+      index, isFetching, seconds } = this.state;
     const MAX_INDEX_VALUE = 4;
     return (
       isFetching ? <h1>Loading</h1>
         : (
           <main>
-            <h4>{ `Difficulty: ${difficulty}` }</h4>
-            <h4 data-testid="question-category">{ `Category: ${category}` }</h4>
-            <h3 data-testid="question-text">{ question }</h3>
-
-            { type === 'multiple'
+            <h4>{`Difficulty: ${difficulty}`}</h4>
+            <h4 data-testid="question-category">{`Category: ${category}`}</h4>
+            <h3 data-testid="question-text">{question}</h3>
+            {type === 'multiple'
               ? this.renderMultiple()
-              : this.renderBoolean() }
-
-            { index <= MAX_INDEX_VALUE
+              : this.renderBoolean()}
+            {index <= MAX_INDEX_VALUE
               ? (
                 <button
                   type="button"
@@ -181,7 +210,13 @@ class Questions extends Component {
                 >
                   Feedback
                 </button>
-              ) }
+              )}
+            <div>
+              Tempo:
+              {' '}
+              {seconds}
+            </div>
+            {/* { seconds === 0 && this.setButtonDisabled() } */}
           </main>
         )
     );

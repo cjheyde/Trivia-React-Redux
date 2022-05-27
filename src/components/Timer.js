@@ -5,8 +5,8 @@ class Timer extends React.Component {
   constructor() {
     super();
     this.state = {
-      seconds: 30,
       timer: 0,
+      seconds: 30,
     };
   }
 
@@ -24,14 +24,14 @@ class Timer extends React.Component {
   }
 
   countDown = () => {
-    const { seconds } = this.state;
+    const { seconds, timer } = this.state;
     if (seconds > 0) {
       this.setState({
         seconds: seconds - 1,
       });
     }
     if (seconds === 0) {
-      clearInterval(this.timer);
+      clearInterval(timer);
     }
   }
 
