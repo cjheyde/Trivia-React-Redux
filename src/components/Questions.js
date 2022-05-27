@@ -67,7 +67,7 @@ class Questions extends Component {
 
     return (
       <div data-testid="answer-options">
-        { shuffledAnswers.map((answer, mapIndex) => (
+        {shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
               <button
@@ -76,7 +76,7 @@ class Questions extends Component {
                 data-testid="correct-answer"
                 key={ `answerBtn${mapIndex}` }
               >
-                { answer }
+                {answer}
               </button>
             )
             : (
@@ -86,10 +86,10 @@ class Questions extends Component {
                 data-testid={ `wrong-answer-${mapIndex}` }
                 key={ `answerBtn${mapIndex}` }
               >
-                { answer }
+                {answer}
               </button>
             )
-        )) }
+        ))}
       </div>);
   }
 
@@ -106,7 +106,7 @@ class Questions extends Component {
 
     return (
       <div data-testid="answer-options">
-        { shuffledAnswers.map((answer, mapIndex) => (
+        {shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
               <button
@@ -115,7 +115,7 @@ class Questions extends Component {
                 data-testid="correct-answer"
                 key={ `answerBtn${mapIndex}` }
               >
-                { answer }
+                {answer}
               </button>
             )
             : (
@@ -125,10 +125,10 @@ class Questions extends Component {
                 data-testid="wrong-answer"
                 key={ `answerBtn${mapIndex}` }
               >
-                { answer }
+                {answer}
               </button>
             )
-        )) }
+        ))}
       </div>);
   }
 
@@ -158,15 +158,15 @@ class Questions extends Component {
       isFetching ? <h1>Loading</h1>
         : (
           <main>
-            <h4>{ `Difficulty: ${difficulty}` }</h4>
-            <h4 data-testid="question-category">{ `Category: ${category}` }</h4>
-            <h3 data-testid="question-text">{ question }</h3>
+            <h4>{`Difficulty: ${difficulty}`}</h4>
+            <h4 data-testid="question-category">{`Category: ${category}`}</h4>
+            <h3 data-testid="question-text">{question}</h3>
 
-            { type === 'multiple'
+            {type === 'multiple'
               ? this.renderMultiple()
-              : this.renderBoolean() }
+              : this.renderBoolean()}
 
-            { index <= MAX_INDEX_VALUE
+            {index <= MAX_INDEX_VALUE
               ? (
                 <button
                   type="button"
@@ -181,7 +181,7 @@ class Questions extends Component {
                 >
                   Feedback
                 </button>
-              ) }
+              )}
           </main>
         )
     );

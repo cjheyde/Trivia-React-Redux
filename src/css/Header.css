@@ -1,0 +1,8 @@
+.loginData {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.score {
+  max-width: 30px;
+}
