@@ -63,6 +63,10 @@ class Questions extends Component {
     return shuffledArray;
   }
 
+  onClickAnswer = () => {
+    this.setState({ okAnswer: true });
+  }
+
   renderMultiple = () => {
     const shuffledAnswers = this.shuffleAnswers();
     const { rightAnswer, okAnswer } = this.state;
@@ -79,6 +83,7 @@ class Questions extends Component {
                 data-testid="correct-answer"
                 key={ `answerBtn${mapIndex}` }
                 onClick={ this.onClickAnswer }
+
               >
                 { answer }
               </button>
@@ -145,6 +150,7 @@ class Questions extends Component {
   changeQuestion = () => {
     this.setState((prevState) => ({
       index: prevState.index + 1,
+      okAnswer: false,
     }), () => {
       this.changeState();
     });
