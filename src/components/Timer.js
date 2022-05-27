@@ -6,7 +6,7 @@ class Timer extends React.Component {
     super();
     this.state = {
       time: {},
-      seconds: 5,
+      seconds: 30,
     };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
@@ -66,9 +66,8 @@ class Timer extends React.Component {
         >
           Start
         </button>
-        m:
-        { time.m }
-        s:
+        Tempo:
+        {' '}
         { time.s }
       </div>
     );
