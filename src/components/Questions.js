@@ -19,6 +19,7 @@ class Questions extends Component {
       rightAnswer: '',
       isFetching: false,
       okAnswer: false,
+      nextButton: false,
     };
   }
 
@@ -64,7 +65,7 @@ class Questions extends Component {
   }
 
   onClickAnswer = () => {
-    this.setState({ okAnswer: true });
+    this.setState({ okAnswer: true, nextButton: true });
   }
 
   renderMultiple = () => {
@@ -151,6 +152,7 @@ class Questions extends Component {
     this.setState((prevState) => ({
       index: prevState.index + 1,
       okAnswer: false,
+      nextButton: false,
     }), () => {
       this.changeState();
     });
@@ -168,7 +170,8 @@ class Questions extends Component {
   }
 
   render() {
-    const { question, difficulty, category, type, index, isFetching } = this.state;
+    const { question,
+      difficulty, category, type, index, isFetching, nextButton } = this.state;
     const MAX_INDEX_VALUE = 4;
     return (
       isFetching ? <h1>Loading</h1>
@@ -182,7 +185,7 @@ class Questions extends Component {
               ? this.renderMultiple()
               : this.renderBoolean() }
 
-            { index <= MAX_INDEX_VALUE
+            { index <= MAX_INDEX_VALUE && nextButton
               ? (
                 <button
                   type="button"
