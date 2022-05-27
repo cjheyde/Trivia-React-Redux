@@ -2,7 +2,7 @@ import { SET_PLAYER_NAME, SET_PLAYER_EMAIL } from '../actions/index';
 
 const INITIAL_STATE = {
   name: '',
-  assertions: '',
+  assertions: 0,
   score: 0,
   gravatarEmail: '',
 };
