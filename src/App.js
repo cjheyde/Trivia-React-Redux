@@ -5,14 +5,12 @@ import Game from './pages/Game';
 import Config from './pages/Config';
 import Ranking from './pages/Ranking';
 import Feedback from './pages/Feedback';
-import Teste from './pages/Teste';
 
 class App extends Component {
   render() {
     return (
       <div className="app">
         <Switch>
-          <Route exact path="/teste" component={ Teste } />
           <Route exact path="/ranking" component={ Ranking } />
           <Route exact path="/feedback" component={ Feedback } />
           <Route exact path="/config" component={ Config } />
