@@ -149,6 +149,10 @@ class Questions extends Component {
   }
 
   changeQuestion = () => {
+    const { history } = this.props;
+    const { index } = this.state;
+    const FOUR = 4;
+
     this.setState((prevState) => ({
       index: prevState.index + 1,
       okAnswer: false,
@@ -156,6 +160,9 @@ class Questions extends Component {
     }), () => {
       this.changeState();
     });
+    if (index === FOUR) {
+      history.push('/feedback');
+    }
   }
 
   changeState = () => {
@@ -186,21 +193,14 @@ class Questions extends Component {
               : this.renderBoolean() }
 
             { index <= MAX_INDEX_VALUE && nextButton
-              ? (
+              && (
                 <button
                   type="button"
                   onClick={ this.changeQuestion }
                 >
                   Next
                 </button>
-              )
-              : (
-                <button
-                  type="button"
-                >
-                  Feedback
-                </button>
-              ) }
+              )}
           </main>
         )
     );
