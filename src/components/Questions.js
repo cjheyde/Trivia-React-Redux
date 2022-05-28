@@ -29,6 +29,7 @@ class Questions extends Component {
 
   async componentDidMount() {
     const savedToken = localStorage.getItem('token');
+    const { startTimer } = this.props;
     this.setState({
       isFetching: true,
     }, async () => {
@@ -46,6 +47,7 @@ class Questions extends Component {
           rightAnswer: questions.results[0].correct_answer,
           isFetching: false,
         });
+        startTimer();
       }
     });
   }
@@ -70,17 +72,20 @@ class Questions extends Component {
 
   onClickAnswer = ({ target }) => {
     const { assertionsToStore } = this.state;
-    const { savePlayerAss } = this.props;
+    const { savePlayerAss, stopTimer, saveTimerToStore } = this.props;
     this.setState({ okAnswer: true, nextButton: true });
     if (target.id === 'correctAnswer') {
       savePlayerAss(assertionsToStore);
       this.setState({ assertionsToStore: assertionsToStore + 1 });
     }
+    saveTimerToStore();
+    stopTimer();
   }
 
   renderMultiple = () => {
     const shuffledAnswers = this.shuffleAnswers();
     const { rightAnswer, okAnswer } = this.state;
+    const { isButtonDisabled } = this.props;
 
     return (
       <div data-testid="answer-options">
@@ -91,6 +96,7 @@ class Questions extends Component {
                 buttonId="correctAnswer"
                 buttonClass={ okAnswer && 'correctAnswer' }
                 answerRorW="correct-answer"
+                isButtonDisabled={ isButtonDisabled }
                 buttonKey={ `answerBtn${mapIndex}` }
                 onClickFunction={ this.onClickAnswer }
                 answer={ answer }
@@ -101,6 +107,7 @@ class Questions extends Component {
                 buttonId="wrongAnswer"
                 buttonClass={ okAnswer && 'wrongAnswer' }
                 answerRorW="correct-answer"
+                isButtonDisabled={ isButtonDisabled }
                 buttonKey={ `wrong-answer-${mapIndex}` }
                 onClickFunction={ this.onClickAnswer }
                 answer={ answer }
@@ -120,7 +127,7 @@ class Questions extends Component {
   renderBoolean = () => {
     const shuffledAnswers = this.shuffleBoolean();
     const { rightAnswer, okAnswer } = this.state;
-
+    const { isButtonDisabled } = this.props;
     return (
       <div data-testid="answer-options">
         { shuffledAnswers.map((answer, mapIndex) => (
@@ -130,6 +137,7 @@ class Questions extends Component {
                 buttonId="correctAnswer"
                 buttonClass={ okAnswer && 'correctAnswer' }
                 answerRorW="correct-answer"
+                isButtonDisabled={ isButtonDisabled }
                 buttonKey={ `answerBtn${mapIndex}` }
                 onClickFunction={ this.onClickAnswer }
                 answer={ answer }
@@ -140,6 +148,7 @@ class Questions extends Component {
                 buttonId="wrongAnswer"
                 buttonClass={ okAnswer && 'wrongAnswer' }
                 answerRorW="wrong-answer"
+                isButtonDisabled={ isButtonDisabled }
                 buttonKey={ `answerBtn${mapIndex}` }
                 onClickFunction={ this.onClickAnswer }
                 answer={ answer }
@@ -180,6 +189,7 @@ class Questions extends Component {
   render() {
     const { question, difficulty, category, type, index, isFetching,
       nextButton } = this.state;
+    const { seconds } = this.props;
     const MAX_INDEX_VALUE = 4;
     return (
       isFetching ? <h1>Loading</h1>
@@ -191,7 +201,11 @@ class Questions extends Component {
             { type === 'multiple'
               ? this.renderMultiple()
               : this.renderBoolean() }
-
+            <div>
+              Tempo:
+              {' '}
+              {seconds}
+            </div>
             { index <= MAX_INDEX_VALUE && nextButton
               && (
                 <button
@@ -215,6 +229,11 @@ Questions.propTypes = {
   savePlayerName: PropTypes.func.isRequired,
   savePlayerEmail: PropTypes.func.isRequired,
   savePlayerAss: PropTypes.func.isRequired,
+  isButtonDisabled: PropTypes.bool.isRequired,
+  seconds: PropTypes.number.isRequired,
+  stopTimer: PropTypes.func.isRequired,
+  startTimer: PropTypes.func.isRequired,
+  saveTimerToStore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
