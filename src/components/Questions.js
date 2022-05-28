@@ -204,6 +204,7 @@ class Questions extends Component {
               && (
                 <button
                   type="button"
+                  data-testid="btn-next"
                   onClick={ this.changeQuestion }
                 >
                   Next
