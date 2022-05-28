@@ -72,13 +72,13 @@ class Questions extends Component {
 
   onClickAnswer = ({ target }) => {
     const { assertionsToStore } = this.state;
-    const { savePlayerAss, stopTimer, saveTimerToStore } = this.props;
+    const { savePlayerAss, stopTimer, saveTimeToStore } = this.props;
     this.setState({ okAnswer: true, nextButton: true });
     if (target.id === 'correctAnswer') {
       savePlayerAss(assertionsToStore);
       this.setState({ assertionsToStore: assertionsToStore + 1 });
     }
-    saveTimerToStore();
+    saveTimeToStore();
     stopTimer();
   }
 
@@ -233,7 +233,7 @@ Questions.propTypes = {
   seconds: PropTypes.number.isRequired,
   stopTimer: PropTypes.func.isRequired,
   startTimer: PropTypes.func.isRequired,
-  saveTimerToStore: PropTypes.func.isRequired,
+  saveTimeToStore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
