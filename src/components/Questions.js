@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getQuestionsFromAPI from '../services/api';
-import { savePlayerEmailAction, savePlayerNameAction } from '../redux/actions';
+import { savePlayerEmailAct, savePlayerNameAct } from '../redux/actions';
 import '../css/Questions.css';
 import Feedback from '../pages/Feedback';
 
@@ -216,8 +216,8 @@ Questions.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
-  savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
+  savePlayerName: (name) => dispatch(savePlayerNameAct(name)),
+  savePlayerEmail: (email) => dispatch(savePlayerEmailAct(email)),
 });
 
 const mapStateToProps = (state) => ({
