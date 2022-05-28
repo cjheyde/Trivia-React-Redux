@@ -207,7 +207,7 @@ class Questions extends Component {
                   data-testid="btn-next"
                   onClick={ this.changeQuestion }
                 >
-                  Next
+                  Próximo
                 </button>
               )}
             { index > MAX_INDEX_VALUE
