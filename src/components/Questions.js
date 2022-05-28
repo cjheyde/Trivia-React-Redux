@@ -3,7 +3,8 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getQuestionsFromAPI from '../services/api';
-import { savePlayerEmailAct, savePlayerNameAct } from '../redux/actions';
+import { savePlayerEmailAct, savePlayerNameAct,
+  savePlayerAssAct } from '../redux/actions';
 import '../css/Questions.css';
 import Feedback from '../pages/Feedback';
 
@@ -21,7 +22,7 @@ class Questions extends Component {
       isFetching: false,
       okAnswer: false,
       nextButton: false,
-      // assertionsToStore: 0,
+      assertionsToStore: 0,
     };
   }
 
@@ -66,8 +67,14 @@ class Questions extends Component {
     return shuffledArray;
   }
 
-  onClickAnswer = () => {
+  onClickAnswer = ({ target }) => {
+    const { assertionsToStore } = this.state;
+    const { savePlayerAss } = this.props;
     this.setState({ okAnswer: true, nextButton: true });
+    if (target.id === 'correctAnswer') {
+      this.setState({ assertionsToStore: assertionsToStore + 1 });
+      savePlayerAss(assertionsToStore);
+    }
   }
 
   renderMultiple = () => {
@@ -179,8 +186,8 @@ class Questions extends Component {
   }
 
   render() {
-    const { question,
-      difficulty, category, type, index, isFetching, nextButton } = this.state;
+    const { question, difficulty, category, type, index, isFetching,
+      nextButton } = this.state;
     const MAX_INDEX_VALUE = 4;
     return (
       isFetching ? <h1>Loading</h1>
@@ -203,7 +210,7 @@ class Questions extends Component {
                 </button>
               )}
             { index > MAX_INDEX_VALUE
-              && <Feedback /> }
+              && (<Feedback />)}
           </main>
         )
     );
@@ -214,11 +221,13 @@ Questions.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   savePlayerName: PropTypes.func.isRequired,
   savePlayerEmail: PropTypes.func.isRequired,
+  savePlayerAss: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   savePlayerName: (name) => dispatch(savePlayerNameAct(name)),
   savePlayerEmail: (email) => dispatch(savePlayerEmailAct(email)),
+  savePlayerAss: (assertionsToStore) => dispatch(savePlayerAssAct(assertionsToStore)),
 });
 
 const mapStateToProps = (state) => ({

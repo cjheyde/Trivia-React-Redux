@@ -25,7 +25,7 @@ export const saveTimeAct = (secondsToStore) => ({
   secondsToStore,
 });
 
-export const savePlayerAssertionsAct = (assertions) => ({
+export const savePlayerAssAct = (assertions) => ({
   type: SET_PLAYER_ASSERTIONS,
   assertions,
 });
