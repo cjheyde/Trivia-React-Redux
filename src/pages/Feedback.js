@@ -6,6 +6,13 @@ import Header from '../components/Header';
 import LogoTrivia from '../components/LogoTrivia';
 
 class Feedback extends Component {
+  constructor() {
+    super();
+    this.state = {
+      feedbackMessage: '',
+    };
+  }
+
   componentDidMount() {
     const { assertionsFromStore } = this.props;
     this.setRankingByPlayer();
@@ -24,9 +31,9 @@ class Feedback extends Component {
     }
   }
 
-  setFeedbackMessage(numberCorrectAnswers) {
+  setFeedbackMessage(assertionsFromStore) {
     const MIN_CORRECT_ANSWERS = 3;
-    if (numberCorrectAnswers >= MIN_CORRECT_ANSWERS) {
+    if (assertionsFromStore >= MIN_CORRECT_ANSWERS) {
       this.setState({
         feedbackMessage: 'Well Done!',
       });

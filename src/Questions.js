@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import getQuestionsFromAPI from '../services/api';
-import { savePlayerEmailAction, savePlayerNameAction } from '../redux/actions';
-import '../css/Questions.css';
-import Feedback from '../pages/Feedback';
+import getQuestionsFromAPI from './services/api';
+import { savePlayerEmailAct, savePlayerNameAct } from './redux/actions';
+import Feedback from './pages/Feedback';
+import './css/Questions.css';
 
 class Questions extends Component {
   constructor() {
@@ -202,26 +202,24 @@ class Questions extends Component {
                 </button>
               )}
             { index > MAX_INDEX_VALUE
-              && <Feedback /> }
+              && (
+                <Feedback />
+              )}
           </main>
         )
     );
   }
 }
-
 Questions.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   savePlayerName: PropTypes.func.isRequired,
   savePlayerEmail: PropTypes.func.isRequired,
 };
-
 const mapDispatchToProps = (dispatch) => ({
-  savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
-  savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
+  savePlayerName: (name) => dispatch(savePlayerNameAct(name)),
+  savePlayerEmail: (email) => dispatch(savePlayerEmailAct(email)),
 });
-
 const mapStateToProps = (state) => ({
   storeToken: state.token,
 });
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

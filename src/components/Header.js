@@ -2,49 +2,50 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import '../css/Header.css';
 
 class Header extends Component {
-  constructor() {
-    super();
-    this.state = {
-      difficultyValue: ['3', '2', '1'],
-      timer: 30,
-      scorePoints: 0,
-    };
-  }
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     difficultyValue: ['3', '2', '1'],
+  //     timer: 30,
+  //     scorePoints: 0,
+  //   };
+  // }
 
-  myScore = () => {
-    const { difficulty } = this.props;
-    const { difficultyValue, timer, scorePoints } = this.state;
-    const constantValue = 10;
+  // myScore = () => {
+  //   const { difficulty } = this.props;
+  //   const { difficultyValue, timer, scorePoints } = this.state;
+  //   const constantValue = 10;
 
-    if (difficulty === 'hard') {
-      const playerScore = constantValue + (timer * Number(difficultyValue[0]));
-      this.setState((prevState) => (
-        { scorePoints: [...prevState.scorePoints + playerScore] }));
-      localStorage.setItem('score', JSON.stringify(scorePoints));
-      return scorePoints;
-    }
+  //   if (difficulty === 'hard') {
+  //     const playerScore = constantValue + (timer * Number(difficultyValue[0]));
+  //     this.setState((prevState) => (
+  //       { scorePoints: [...prevState.scorePoints + playerScore] }));
+  //     localStorage.setItem('score', JSON.stringify(scorePoints));
+  //     return scorePoints;
+  //   }
 
-    if (difficulty === 'medium') {
-      const playerScore = constantValue + (timer * Number(difficultyValue[1]));
-      this.setState((prevState) => (
-        { scorePoints: [...prevState.scorePoints + playerScore] }));
-      localStorage.setItem('score', JSON.stringify(scorePoints));
-      return scorePoints;
-    }
+  //   if (difficulty === 'medium') {
+  //     const playerScore = constantValue + (timer * Number(difficultyValue[1]));
+  //     this.setState((prevState) => (
+  //       { scorePoints: [...prevState.scorePoints + playerScore] }));
+  //     localStorage.setItem('score', JSON.stringify(scorePoints));
+  //     return scorePoints;
+  //   }
 
-    if (difficulty === 'easy') {
-      const playerScore = constantValue + (timer * Number(difficultyValue[2]));
-      this.setState((prevState) => (
-        { scorePoints: [...prevState.scorePoints + playerScore] }));
-      localStorage.setItem('score', JSON.stringify(scorePoints));
-      return scorePoints;
-    }
-  }
+  //   if (difficulty === 'easy') {
+  //     const playerScore = constantValue + (timer * Number(difficultyValue[2]));
+  //     this.setState((prevState) => (
+  //       { scorePoints: [...prevState.scorePoints + playerScore] }));
+  //     localStorage.setItem('score', JSON.stringify(scorePoints));
+  //     return scorePoints;
+  //   }
+  // }
 
   render() {
-    const { gravatarEmailFromStore, nameFromStore } = this.props;
+    const { gravatarEmailFromStore, nameFromStore, scoreFromStore } = this.props;
     // console.log(gravatarEmailFromStore, nameFromStore);
     const hashGerada = md5(gravatarEmailFromStore).toString();
     return (
@@ -65,7 +66,7 @@ class Header extends Component {
           <div
             data-testid="header-score"
           >
-            {this.myScore}
+            {scoreFromStore}
           </div>
         </fieldset>
       </header>
@@ -76,7 +77,7 @@ class Header extends Component {
 const mapStateToProps = (store) => ({
   gravatarEmailFromStore: store.player.gravatarEmail,
   nameFromStore: store.player.name,
-  // scoreFromStore: store.player.score,
+  scoreFromStore: store.player.score,
   difficulty: store.player.difficulty,
 });
 
