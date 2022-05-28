@@ -21,6 +21,7 @@ class Questions extends Component {
       isFetching: false,
       okAnswer: false,
       nextButton: false,
+      // assertionsToStore: 0,
     };
   }
 
