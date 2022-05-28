@@ -4,9 +4,9 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
 class RankingNoLStorage extends Component {
-  // componentDidMount() {
-  //   this.setRankingByPlayer();
-  // }
+  componentDidMount() {
+    this.setRankingByPlayer();
+  }
 
   setRankingByPlayer = () => {
     const { nameFromStore, scoreFromStore, gravatarEmailFromStore } = this.props;

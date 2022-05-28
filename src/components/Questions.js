@@ -7,6 +7,7 @@ import { savePlayerEmailAct, savePlayerNameAct,
   savePlayerAssAct } from '../redux/actions';
 import '../css/Questions.css';
 import Feedback from '../pages/Feedback';
+import Button from './Button';
 
 class Questions extends Component {
   constructor() {
@@ -22,7 +23,7 @@ class Questions extends Component {
       isFetching: false,
       okAnswer: false,
       nextButton: false,
-      assertionsToStore: 0,
+      assertionsToStore: 1,
     };
   }
 
@@ -72,8 +73,8 @@ class Questions extends Component {
     const { savePlayerAss } = this.props;
     this.setState({ okAnswer: true, nextButton: true });
     if (target.id === 'correctAnswer') {
-      this.setState({ assertionsToStore: assertionsToStore + 1 });
       savePlayerAss(assertionsToStore);
+      this.setState({ assertionsToStore: assertionsToStore + 1 });
     }
   }
 
@@ -86,29 +87,24 @@ class Questions extends Component {
         { shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
-              <button
-                id="correctAnswer"
-                type="button"
-                className={ okAnswer && 'correctAnswer' }
-                data-testid="correct-answer"
-                key={ `answerBtn${mapIndex}` }
-                onClick={ this.onClickAnswer }
-
-              >
-                { answer }
-              </button>
+              <Button
+                buttonId="correctAnswer"
+                buttonClass={ okAnswer && 'correctAnswer' }
+                answerRorW="correct-answer"
+                buttonKey={ `answerBtn${mapIndex}` }
+                onClickFunction={ this.onClickAnswer }
+                answer={ answer }
+              />
             )
             : (
-              <button
-                id="wrongAnswer"
-                type="button"
-                className={ okAnswer && 'wrongAnswer' }
-                data-testid={ `wrong-answer-${mapIndex}` }
-                key={ `answerBtn${mapIndex}` }
-                onClick={ this.onClickAnswer }
-              >
-                { answer }
-              </button>
+              <Button
+                buttonId="wrongAnswer"
+                buttonClass={ okAnswer && 'wrongAnswer' }
+                answerRorW="correct-answer"
+                buttonKey={ `wrong-answer-${mapIndex}` }
+                onClickFunction={ this.onClickAnswer }
+                answer={ answer }
+              />
             )
         )) }
       </div>);
@@ -130,28 +126,24 @@ class Questions extends Component {
         { shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
-              <button
-                id="correctAnswer"
-                className={ okAnswer && 'correctAnswer' }
-                type="button"
-                data-testid="correct-answer"
-                key={ `answerBtn${mapIndex}` }
-                onClick={ this.onClickAnswer }
-              >
-                { answer }
-              </button>
+              <Button
+                buttonId="correctAnswer"
+                buttonClass={ okAnswer && 'correctAnswer' }
+                answerRorW="correct-answer"
+                buttonKey={ `answerBtn${mapIndex}` }
+                onClickFunction={ this.onClickAnswer }
+                answer={ answer }
+              />
             )
             : (
-              <button
-                id="wrongAnswer"
-                type="button"
-                className={ okAnswer && 'wrongAnswer' }
-                data-testid="wrong-answer"
-                key={ `answerBtn${mapIndex}` }
-                onClick={ this.onClickAnswer }
-              >
-                { answer }
-              </button>
+              <Button
+                buttonId="wrongAnswer"
+                buttonClass={ okAnswer && 'wrongAnswer' }
+                answerRorW="wrong-answer"
+                buttonKey={ `answerBtn${mapIndex}` }
+                onClickFunction={ this.onClickAnswer }
+                answer={ answer }
+              />
             )
         )) }
       </div>);
