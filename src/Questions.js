@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import getQuestionsFromAPI from '../services/api';
-import { savePlayerEmailAct, savePlayerNameAct,
-  savePlayerAssAct } from '../redux/actions';
-import '../css/Questions.css';
-import Feedback from '../pages/Feedback';
-import Button from './Button';
+import getQuestionsFromAPI from './services/api';
+import { savePlayerEmailAct, savePlayerNameAct } from './redux/actions';
+import Feedback from './pages/Feedback';
+import './css/Questions.css';
 
 class Questions extends Component {
   constructor() {
@@ -23,7 +21,6 @@ class Questions extends Component {
       isFetching: false,
       okAnswer: false,
       nextButton: false,
-      assertionsToStore: 1,
     };
   }
 
@@ -68,14 +65,8 @@ class Questions extends Component {
     return shuffledArray;
   }
 
-  onClickAnswer = ({ target }) => {
-    const { assertionsToStore } = this.state;
-    const { savePlayerAss } = this.props;
+  onClickAnswer = () => {
     this.setState({ okAnswer: true, nextButton: true });
-    if (target.id === 'correctAnswer') {
-      savePlayerAss(assertionsToStore);
-      this.setState({ assertionsToStore: assertionsToStore + 1 });
-    }
   }
 
   renderMultiple = () => {
@@ -87,24 +78,29 @@ class Questions extends Component {
         { shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
-              <Button
-                buttonId="correctAnswer"
-                buttonClass={ okAnswer && 'correctAnswer' }
-                answerRorW="correct-answer"
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
+              <button
+                id="correctAnswer"
+                type="button"
+                className={ okAnswer && 'correctAnswer' }
+                data-testid="correct-answer"
+                key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+
+              >
+                { answer }
+              </button>
             )
             : (
-              <Button
-                buttonId="wrongAnswer"
-                buttonClass={ okAnswer && 'wrongAnswer' }
-                answerRorW="correct-answer"
-                buttonKey={ `wrong-answer-${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
+              <button
+                id="wrongAnswer"
+                type="button"
+                className={ okAnswer && 'wrongAnswer' }
+                data-testid={ `wrong-answer-${mapIndex}` }
+                key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+              >
+                { answer }
+              </button>
             )
         )) }
       </div>);
@@ -126,24 +122,28 @@ class Questions extends Component {
         { shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
-              <Button
-                buttonId="correctAnswer"
-                buttonClass={ okAnswer && 'correctAnswer' }
-                answerRorW="correct-answer"
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
+              <button
+                id="correctAnswer"
+                className={ okAnswer && 'correctAnswer' }
+                type="button"
+                data-testid="correct-answer"
+                key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+              >
+                { answer }
+              </button>
             )
             : (
-              <Button
-                buttonId="wrongAnswer"
-                buttonClass={ okAnswer && 'wrongAnswer' }
-                answerRorW="wrong-answer"
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
+              <button
+                id="wrongAnswer"
+                type="button"
+                className={ okAnswer && 'wrongAnswer' }
+                data-testid="wrong-answer"
+                key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+              >
+                { answer }
+              </button>
             )
         )) }
       </div>);
@@ -178,8 +178,8 @@ class Questions extends Component {
   }
 
   render() {
-    const { question, difficulty, category, type, index, isFetching,
-      nextButton } = this.state;
+    const { question,
+      difficulty, category, type, index, isFetching, nextButton } = this.state;
     const MAX_INDEX_VALUE = 4;
     return (
       isFetching ? <h1>Loading</h1>
@@ -196,35 +196,30 @@ class Questions extends Component {
               && (
                 <button
                   type="button"
-                  data-testid="btn-next"
                   onClick={ this.changeQuestion }
                 >
-                  Próximo
+                  Next
                 </button>
               )}
             { index > MAX_INDEX_VALUE
-              && (<Feedback />)}
+              && (
+                <Feedback />
+              )}
           </main>
         )
     );
   }
 }
-
 Questions.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   savePlayerName: PropTypes.func.isRequired,
   savePlayerEmail: PropTypes.func.isRequired,
-  savePlayerAss: PropTypes.func.isRequired,
 };
-
 const mapDispatchToProps = (dispatch) => ({
   savePlayerName: (name) => dispatch(savePlayerNameAct(name)),
   savePlayerEmail: (email) => dispatch(savePlayerEmailAct(email)),
-  savePlayerAss: (assertionsToStore) => dispatch(savePlayerAssAct(assertionsToStore)),
 });
-
 const mapStateToProps = (state) => ({
   storeToken: state.token,
 });
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));
