@@ -3,16 +3,10 @@ import PropTypes from 'prop-types';
 import Button from './Button';
 
 export default class BooleanBtn extends Component {
-  shuffleBoolean = () => {
-    const answers = ['True', 'False'];
-    const LIMIT_VALUE = 0.5;
-    const shuffledArray = answers.sort(() => Math.random() - LIMIT_VALUE);
-    return shuffledArray;
-  }
-
   render() {
-    const { isButtonDisabled, okAnswer, rightAnswer, onClickAnswer } = this.props;
-    const shuffledAnswers = this.shuffleBoolean();
+    const { isButtonDisabled, okAnswer, rightAnswer,
+      onClickAnswer, shuffledAnswers } = this.props;
+
     return (
       <div data-testid="answer-options">
         { shuffledAnswers.map((answer, mapIndex) => (

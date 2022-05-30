@@ -38,7 +38,6 @@ class Game extends Component {
   saveTimeToStore = () => {
     const { seconds } = this.state;
     const { saveTime } = this.props;
-    console.log(seconds);
     saveTime(seconds);
     this.stopTimer();
   }

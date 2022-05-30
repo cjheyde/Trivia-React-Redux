@@ -27,7 +27,7 @@ class Questions extends Component {
       nextButton: false,
       scorePlayer: 0,
       assertionsToStore: 1,
-      // shuffledAnswers: [],
+      shuffledAnswers: [],
     };
   }
 
@@ -40,7 +40,7 @@ class Questions extends Component {
       if (questions.response_code === INVALID_CODE) {
         invalidCode(history, savePlayerEmail, savePlayerName);
       } else {
-        // const shuffleAnswers = this.shuffleAnswers(questions.results);
+        const shuffle = this.shuffleAnswers(questions.results);
         this.setState({
           questionsArray: questions.results,
           difficulty: questions.results[0].difficulty,
@@ -49,7 +49,7 @@ class Questions extends Component {
           type: questions.results[0].type,
           rightAnswer: questions.results[0].correct_answer,
           isFetching: false,
-          // shuffledAnswers: shuffleAnswers,
+          shuffledAnswers: shuffle,
         });
         startTimer();
       }
@@ -69,19 +69,23 @@ class Questions extends Component {
   }
 
   onClickAnswer = async ({ target }) => {
-    const { rightAnswer, assertionsToStore } = this.state;
+    const { rightAnswer, assertionsToStore, nextButton } = this.state;
     const { saveScore, savePlayerAssertion, stopTimer, saveTimeToStore } = this.props;
-    stopTimer();
+    console.log(stopTimer);
+    await stopTimer();
     await saveTimeToStore();
     const { clickedTime } = this.props;
-    console.log(clickedTime, rightAnswer);
+    console.log(clickedTime, rightAnswer, nextButton);
     const score = rightAnswer === target.value ? myScore(clickedTime) : 0;
-    this.setState((prevState) => ({ okAnswer: true,
+    this.setState((prevState) => ({
+      okAnswer: true,
       scorePlayer: prevState.scorePlayer + score,
-      nextButton: true }), () => {
+      nextButton: true,
+    }), () => {
       const { scorePlayer } = this.state;
       saveScore(scorePlayer);
     });
+    console.log(nextButton);
     if (target.id === 'correctAnswer') {
       savePlayerAssertion(assertionsToStore);
       this.setState({ assertionsToStore: assertionsToStore + 1 });
@@ -112,7 +116,7 @@ class Questions extends Component {
 
   render() {
     const { question, difficulty, category, type, index, isFetching,
-      nextButton, rightAnswer, okAnswer, questionsArray } = this.state;
+      nextButton, rightAnswer, okAnswer, questionsArray, shuffledAnswers } = this.state;
     const { seconds, isButtonDisabled } = this.props;
     const MAX_INDEX_VALUE = 4;
     return (
@@ -125,6 +129,7 @@ class Questions extends Component {
             { type === 'multiple'
               ? (
                 <MultipleBtn
+                  shuffledAnswers={ shuffledAnswers }
                   isButtonDisabled={ isButtonDisabled }
                   okAnswer={ okAnswer }
                   rightAnswer={ rightAnswer }
@@ -135,6 +140,7 @@ class Questions extends Component {
                 />)
               : (
                 <BooleanBtn
+                  shuffledAnswers={ shuffledAnswers }
                   isButtonDisabled={ isButtonDisabled }
                   okAnswer={ okAnswer }
                   rightAnswer={ rightAnswer }
