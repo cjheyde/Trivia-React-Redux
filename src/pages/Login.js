@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { savePlayerNameAction, savePlayerEmailAction,
   saveTokenAction } from '../redux/actions/index';
 import LogoTrivia from '../components/LogoTrivia';
+// codado em pair programing All - Carla Heyde/Nata Abrahão/Paulo Bruno/Priscila Nogueira/Elaine Costa
 
 class Login extends Component {
   constructor() {

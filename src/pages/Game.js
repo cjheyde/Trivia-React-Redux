@@ -8,7 +8,7 @@ import { saveTimeAction } from '../redux/actions';
 class Game extends Component {
   constructor() {
     super();
-    this.state = { timer: 0, seconds: 30, time: '', isButtonDisabled: false };
+    this.state = { timer: 0, seconds: 30, isButtonDisabled: false };
   }
 
   startTimer = () => {
@@ -38,7 +38,6 @@ class Game extends Component {
   saveTimeToStore = () => {
     const { seconds } = this.state;
     const { saveTime } = this.props;
-    this.setState({ time: seconds });
     console.log(seconds);
     saveTime(seconds);
     this.stopTimer();

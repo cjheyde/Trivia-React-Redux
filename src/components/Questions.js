@@ -8,6 +8,8 @@ import { savePlayerEmailAction, savePlayerNameAction,
   savePlayerAssertionAction, saveScoreAction } from '../redux/actions';
 import '../css/Questions.css';
 import Feedback from '../pages/Feedback';
+import BooleanBtn from './BooleanBtn';
+import MultipleBtn from './MultipleBtn';
 
 class Questions extends Component {
   constructor() {
@@ -25,7 +27,7 @@ class Questions extends Component {
       nextButton: false,
       scorePlayer: 0,
       assertionsToStore: 1,
-      shuffledAnswers: [],
+      // shuffledAnswers: [],
     };
   }
 
@@ -38,7 +40,7 @@ class Questions extends Component {
       if (questions.response_code === INVALID_CODE) {
         invalidCode(history, savePlayerEmail, savePlayerName);
       } else {
-        const shuffleAnswers = this.shuffleAnswers(questions.results);
+        // const shuffleAnswers = this.shuffleAnswers(questions.results);
         this.setState({
           questionsArray: questions.results,
           difficulty: questions.results[0].difficulty,
@@ -47,7 +49,7 @@ class Questions extends Component {
           type: questions.results[0].type,
           rightAnswer: questions.results[0].correct_answer,
           isFetching: false,
-          shuffledAnswers: shuffleAnswers,
+          // shuffledAnswers: shuffleAnswers,
         });
         startTimer();
       }
@@ -86,82 +88,6 @@ class Questions extends Component {
     }
   }
 
-  renderMultiple = () => {
-    const { rightAnswer, okAnswer, shuffledAnswers } = this.state;
-    const { isButtonDisabled } = this.props;
-    return (
-      <div data-testid="answer-options">
-        { shuffledAnswers.map((answer, mapIndex) => (answer === rightAnswer
-          ? (
-            <button
-              id="correctAnswer"
-              type="button"
-              value={ answer }
-              className={ okAnswer && 'correctAnswer' }
-              data-testid="correct-answer"
-              key={ `answerBtn${mapIndex}` }
-              onClick={ this.onClickAnswer }
-              disabled={ isButtonDisabled }
-            >
-              { answer }
-            </button>
-          )
-          : (
-            <button
-              id="wrongAnswer"
-              type="button"
-              value={ answer }
-              className={ okAnswer && 'wrongAnswer' }
-              data-testid={ `wrong-answer-${mapIndex}` }
-              key={ `answerBtn${mapIndex}` }
-              onClick={ this.onClickAnswer }
-              disabled={ isButtonDisabled }
-            >
-              { answer }
-            </button>
-          )
-        )) }
-      </div>);
-  }
-
-  renderBoolean = () => {
-    const { rightAnswer, okAnswer, shuffledAnswers } = this.state;
-    const { isButtonDisabled } = this.props;
-    return (
-      <div data-testid="answer-options">
-        { shuffledAnswers.map((answer, mapIndex) => (answer === rightAnswer
-          ? (
-            <button
-              id="correctAnswer"
-              className={ okAnswer && 'correctAnswer' }
-              value={ answer }
-              type="button"
-              data-testid="correct-answer"
-              key={ `answerBtn${mapIndex}` }
-              onClick={ this.onClickAnswer }
-              disabled={ isButtonDisabled }
-            >
-              { answer }
-            </button>
-          )
-          : (
-            <button
-              id="wrongAnswer"
-              value={ answer }
-              type="button"
-              className={ okAnswer && 'wrongAnswer' }
-              data-testid="wrong-answer"
-              key={ `answerBtn${mapIndex}` }
-              onClick={ this.onClickAnswer }
-              disabled={ isButtonDisabled }
-            >
-              { answer }
-            </button>
-          )
-        )) }
-      </div>);
-  }
-
   changeQuestion = () => {
     const { history } = this.props;
     const { index } = this.state;
@@ -186,24 +112,40 @@ class Questions extends Component {
 
   render() {
     const { question, difficulty, category, type, index, isFetching,
-      nextButton } = this.state;
-    const { seconds } = this.props;
+      nextButton, rightAnswer, okAnswer, questionsArray } = this.state;
+    const { seconds, isButtonDisabled } = this.props;
     const MAX_INDEX_VALUE = 4;
-    return (isFetching ? <h1>Loading</h1>
-      : (
-        <main>
-          <h4>{ `Difficulty: ${difficulty}` }</h4>
-          <h4 data-testid="question-category">{ `Category: ${category}` }</h4>
-          <h3 data-testid="question-text">{ question }</h3>
-          { type === 'multiple'
-            ? this.renderMultiple()
-            : this.renderBoolean() }
-          <div>
-            Tempo:
-            {' '}
-            {seconds}
-          </div>
-          { index <= MAX_INDEX_VALUE && nextButton
+    return (
+      isFetching ? <h1>Loading</h1>
+        : (
+          <main>
+            <h4>{ `Difficulty: ${difficulty}` }</h4>
+            <h4 data-testid="question-category">{ `Category: ${category}` }</h4>
+            <h3 data-testid="question-text">{ question }</h3>
+            { type === 'multiple'
+              ? (
+                <MultipleBtn
+                  isButtonDisabled={ isButtonDisabled }
+                  okAnswer={ okAnswer }
+                  rightAnswer={ rightAnswer }
+                  onClickAnswer={ this.onClickAnswer }
+                  questionsArray={ questionsArray }
+                  index={ index }
+                  difficulty={ difficulty }
+                />)
+              : (
+                <BooleanBtn
+                  isButtonDisabled={ isButtonDisabled }
+                  okAnswer={ okAnswer }
+                  rightAnswer={ rightAnswer }
+                  onClickAnswer={ this.onClickAnswer }
+                />)}
+            <div>
+              Tempo:
+              {' '}
+              {seconds}
+            </div>
+            { index <= MAX_INDEX_VALUE && nextButton
               && (
                 <button
                   type="button"
@@ -212,9 +154,9 @@ class Questions extends Component {
                 >
                   Próximo
                 </button>)}
-          { index > MAX_INDEX_VALUE && (<Feedback />)}
-        </main>
-      )
+            { index > MAX_INDEX_VALUE && (<Feedback />)}
+          </main>
+        )
     );
   }
 }
