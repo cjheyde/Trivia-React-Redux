@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import getQuestionsFromAPI from '../services/api';
-import myScore from './Score';
-import { savePlayerEmailAct, savePlayerNameAct,
-  savePlayerAssAct, saveScoreAction } from '../redux/actions';
-import '../css/Questions.css';
-import Feedback from '../pages/Feedback';
-import Button from './Button';
+import getQuestionsFromAPI from './services/api';
+import { savePlayerEmailAct, savePlayerNameAct } from './redux/actions';
+import Feedback from './pages/Feedback';
+import './css/Questions.css';
 
 class Questions extends Component {
   constructor() {
@@ -24,14 +21,11 @@ class Questions extends Component {
       isFetching: false,
       okAnswer: false,
       nextButton: false,
-      scorePlayer: 0,
-      assertionsToStore: 1,
     };
   }
 
   async componentDidMount() {
     const savedToken = localStorage.getItem('token');
-    const { startTimer } = this.props;
     this.setState({
       isFetching: true,
     }, async () => {
@@ -49,7 +43,6 @@ class Questions extends Component {
           rightAnswer: questions.results[0].correct_answer,
           isFetching: false,
         });
-        startTimer();
       }
     });
   }
@@ -69,60 +62,45 @@ class Questions extends Component {
     const allAnswers = [...wrongAnswers, rightAnswer];
     const LIMIT_VALUE = 0.5;
     const shuffledArray = allAnswers.sort(() => Math.random() - LIMIT_VALUE);
-    const { difficulty } = this.state;
-    localStorage.setItem('difficulty', difficulty);
     return shuffledArray;
   }
 
-  onClickAnswer = ({ target }) => {
-    const { scorePlayer, rightAnswer, assertionsToStore } = this.state;
-    const { saveScore, savePlayerAss, stopTimer, saveTimeToStore } = this.props;
-    const score = rightAnswer === target.value ? myScore() : 0;
-    this.setState((prevState) => ({
-      okAnswer: true,
-      scorePlayer: prevState.scorePlayer + score,
-      nextButton: true }), () => {
-      saveScore(scorePlayer);
-    });
-    if (target.id === 'correctAnswer') {
-      savePlayerAss(assertionsToStore);
-      this.setState({ assertionsToStore: assertionsToStore + 1 });
-    }
-    saveTimeToStore();
-    stopTimer();
+  onClickAnswer = () => {
+    this.setState({ okAnswer: true, nextButton: true });
   }
 
   renderMultiple = () => {
     const shuffledAnswers = this.shuffleAnswers();
     const { rightAnswer, okAnswer } = this.state;
-    const { isButtonDisabled } = this.props;
+
     return (
       <div data-testid="answer-options">
         { shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
-              <Button              
-                value={ answer }
-                buttonId="correctAnswer"
-                buttonClass={ okAnswer && 'correctAnswer' }
-                answerRorW="correct-answer"
-                isButtonDisabled={ isButtonDisabled }
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
+              <button
+                id="correctAnswer"
+                type="button"
+                className={ okAnswer && 'correctAnswer' }
+                data-testid="correct-answer"
+                key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+
+              >
+                { answer }
+              </button>
             )
             : (
-              <Button              
-                value={ answer }
-                buttonId="wrongAnswer"
-                buttonClass={ okAnswer && 'wrongAnswer' }
-                answerRorW="correct-answer"
-                isButtonDisabled={ isButtonDisabled }
-                buttonKey={ `wrong-answer-${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
+              <button
+                id="wrongAnswer"
+                type="button"
+                className={ okAnswer && 'wrongAnswer' }
+                data-testid={ `wrong-answer-${mapIndex}` }
+                key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+              >
+                { answer }
+              </button>
             )
         )) }
       </div>);
@@ -138,34 +116,34 @@ class Questions extends Component {
   renderBoolean = () => {
     const shuffledAnswers = this.shuffleBoolean();
     const { rightAnswer, okAnswer } = this.state;
-    const { isButtonDisabled } = this.props;
+
     return (
       <div data-testid="answer-options">
         { shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
-              <Button
-                value={ answer }
-                buttonId="correctAnswer"
-                buttonClass={ okAnswer && 'correctAnswer' }
-                answerRorW="correct-answer"
-                isButtonDisabled={ isButtonDisabled }
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
+              <button
+                id="correctAnswer"
+                className={ okAnswer && 'correctAnswer' }
+                type="button"
+                data-testid="correct-answer"
+                key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+              >
+                { answer }
+              </button>
             )
             : (
-              <Button
-                value={ answer }
-                buttonId="wrongAnswer"
-                buttonClass={ okAnswer && 'wrongAnswer' }
-                answerRorW="wrong-answer"
-                isButtonDisabled={ isButtonDisabled }
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
+              <button
+                id="wrongAnswer"
+                type="button"
+                className={ okAnswer && 'wrongAnswer' }
+                data-testid="wrong-answer"
+                key={ `answerBtn${mapIndex}` }
+                onClick={ this.onClickAnswer }
+              >
+                { answer }
+              </button>
             )
         )) }
       </div>);
@@ -175,12 +153,17 @@ class Questions extends Component {
     const { history } = this.props;
     const { index } = this.state;
     const FOUR = 4;
+
     this.setState((prevState) => ({
       index: prevState.index + 1,
       okAnswer: false,
       nextButton: false,
-    }), () => { this.changeState(); });
-    if (index === FOUR) { history.push('/feedback'); }
+    }), () => {
+      this.changeState();
+    });
+    if (index === FOUR) {
+      history.push('/feedback');
+    }
   }
 
   changeState = () => {
@@ -195,9 +178,8 @@ class Questions extends Component {
   }
 
   render() {
-    const { question, difficulty, category, type, index, isFetching,
-      nextButton } = this.state;
-    const { seconds } = this.props;
+    const { question,
+      difficulty, category, type, index, isFetching, nextButton } = this.state;
     const MAX_INDEX_VALUE = 4;
     return (
       isFetching ? <h1>Loading</h1>
@@ -209,51 +191,35 @@ class Questions extends Component {
             { type === 'multiple'
               ? this.renderMultiple()
               : this.renderBoolean() }
-            <div>
-              Tempo:
-              {' '}
-              {seconds}
-            </div>
+
             { index <= MAX_INDEX_VALUE && nextButton
               && (
                 <button
                   type="button"
-                  data-testid="btn-next"
                   onClick={ this.changeQuestion }
                 >
-                  Próximo
+                  Next
                 </button>
               )}
             { index > MAX_INDEX_VALUE
-              && (<Feedback />)}
+              && (
+                <Feedback />
+              )}
           </main>
         )
     );
   }
 }
-
 Questions.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   savePlayerName: PropTypes.func.isRequired,
   savePlayerEmail: PropTypes.func.isRequired,
-  savePlayerAss: PropTypes.func.isRequired,
-  isButtonDisabled: PropTypes.bool.isRequired,
-  seconds: PropTypes.number.isRequired,
-  stopTimer: PropTypes.func.isRequired,
-  startTimer: PropTypes.func.isRequired,
-  saveTimeToStore: PropTypes.func.isRequired,
-  saveScore: PropTypes.func.isRequired,
 };
-
 const mapDispatchToProps = (dispatch) => ({
-  savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
-  savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
-  saveScore: (score) => dispatch(saveScoreAction(score)),  
-  savePlayerAss: (assertionsToStore) => dispatch(savePlayerAssAct(assertionsToStore)),
-};
-
+  savePlayerName: (name) => dispatch(savePlayerNameAct(name)),
+  savePlayerEmail: (email) => dispatch(savePlayerEmailAct(email)),
+});
 const mapStateToProps = (state) => ({
   storeToken: state.token,
 });
-
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

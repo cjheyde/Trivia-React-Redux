@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
+import '../css/Header.css';
 
 class Header extends Component {
   render() {
     const { gravatarEmailFromStore, nameFromStore, scoreFromStore } = this.props;
-    console.log(scoreFromStore);
+    // console.log(gravatarEmailFromStore, nameFromStore);
     const hashGerada = md5(gravatarEmailFromStore).toString();
     return (
       <header>
