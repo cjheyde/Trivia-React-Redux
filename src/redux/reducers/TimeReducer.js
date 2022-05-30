@@ -1,16 +1,18 @@
 import { SET_TIME_ANSWER } from '../actions/index';
 
 const INITIAL_STATE = {
-  secondsToStore: '',
+  time: 0,
 };
 
-const time = (state = INITIAL_STATE, action) => {
+const tempo = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case SET_TIME_ANSWER:
-    return action.secondsToStore;
+    return {
+      ...state,
+      time: action.time };
   default:
     return state;
   }
 };
 
-export default time;
+export default tempo;
