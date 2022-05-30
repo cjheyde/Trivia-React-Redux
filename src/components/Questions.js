@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getQuestionsFromAPI from '../services/api';
-import myScore from './Score';
+import { myScore, invalidCode } from './Functions';
 import { savePlayerEmailAction, savePlayerNameAction,
   savePlayerAssertionAction, saveScoreAction } from '../redux/actions';
 import '../css/Questions.css';
@@ -27,20 +27,20 @@ class Questions extends Component {
       nextButton: false,
       scorePlayer: 0,
       assertionsToStore: 1,
+      shuffledAnswers: [],
     };
   }
 
   async componentDidMount() {
     const savedToken = localStorage.getItem('token');
-    const { startTimer } = this.props;
-    this.setState({
-      isFetching: true,
-    }, async () => {
+    const { startTimer, history, savePlayerEmail, savePlayerName } = this.props;
+    this.setState({ isFetching: true }, async () => {
       const questions = await getQuestionsFromAPI(savedToken);
       const INVALID_CODE = 3;
       if (questions.response_code === INVALID_CODE) {
-        this.invalidCode();
+        invalidCode(history, savePlayerEmail, savePlayerName);
       } else {
+        const shuffle = this.shuffleAnswers(questions.results);
         this.setState({
           questionsArray: questions.results,
           difficulty: questions.results[0].difficulty,
@@ -49,44 +49,54 @@ class Questions extends Component {
           type: questions.results[0].type,
           rightAnswer: questions.results[0].correct_answer,
           isFetching: false,
+          shuffledAnswers: shuffle,
         });
         startTimer();
       }
     });
   }
 
-  invalidCode = () => {
-    const { history, savePlayerEmail, savePlayerName } = this.props;
-    localStorage.setItem('token', '');
-    savePlayerEmail('');
-    savePlayerName('');
-    history.push('/');
+  shuffleAnswers = (questionsArray) => {
+    const { index } = this.state;
+    const rightAnswer = questionsArray[index].correct_answer;
+    console.log(rightAnswer);
+    const wrongAnswers = questionsArray[index].incorrect_answers;
+    const allAnswers = [...wrongAnswers, rightAnswer];
+    const LIMIT_VALUE = 0.5;
+    const shuffledArray = allAnswers.sort(() => Math.random() - LIMIT_VALUE);
+    localStorage.setItem('difficulty', questionsArray[index].difficulty);
+    return shuffledArray;
   }
 
-  onClickAnswer = ({ target }) => {
-    const { scorePlayer, rightAnswer, assertionsToStore } = this.state;
+  onClickAnswer = async ({ target }) => {
+    const { rightAnswer, assertionsToStore, nextButton } = this.state;
     const { saveScore, savePlayerAssertion, stopTimer, saveTimeToStore } = this.props;
-    const score = rightAnswer === target.value ? myScore() : 0;
+    console.log(stopTimer);
+    await stopTimer();
+    await saveTimeToStore();
+    const { clickedTime } = this.props;
+    console.log(clickedTime, rightAnswer, nextButton);
+    const score = rightAnswer === target.value ? myScore(clickedTime) : 0;
     this.setState((prevState) => ({
       okAnswer: true,
       scorePlayer: prevState.scorePlayer + score,
-      nextButton: true }), () => {
+      nextButton: true,
+    }), () => {
+      const { scorePlayer } = this.state;
       saveScore(scorePlayer);
     });
+    console.log(nextButton);
     if (target.id === 'correctAnswer') {
       savePlayerAssertion(assertionsToStore);
       this.setState({ assertionsToStore: assertionsToStore + 1 });
     }
-    saveTimeToStore();
-    stopTimer();
   }
 
   changeQuestion = () => {
     const { history } = this.props;
     const { index } = this.state;
     const FOUR = 4;
-    this.setState((prevState) => ({
-      index: prevState.index + 1,
+    this.setState((prevState) => ({ index: prevState.index + 1,
       okAnswer: false,
       nextButton: false,
     }), () => { this.changeState(); });
@@ -106,7 +116,7 @@ class Questions extends Component {
 
   render() {
     const { question, difficulty, category, type, index, isFetching,
-      nextButton, rightAnswer, okAnswer, questionsArray } = this.state;
+      nextButton, rightAnswer, okAnswer, questionsArray, shuffledAnswers } = this.state;
     const { seconds, isButtonDisabled } = this.props;
     const MAX_INDEX_VALUE = 4;
     return (
@@ -119,6 +129,7 @@ class Questions extends Component {
             { type === 'multiple'
               ? (
                 <MultipleBtn
+                  shuffledAnswers={ shuffledAnswers }
                   isButtonDisabled={ isButtonDisabled }
                   okAnswer={ okAnswer }
                   rightAnswer={ rightAnswer }
@@ -129,6 +140,7 @@ class Questions extends Component {
                 />)
               : (
                 <BooleanBtn
+                  shuffledAnswers={ shuffledAnswers }
                   isButtonDisabled={ isButtonDisabled }
                   okAnswer={ okAnswer }
                   rightAnswer={ rightAnswer }
@@ -145,12 +157,11 @@ class Questions extends Component {
                   type="button"
                   data-testid="btn-next"
                   onClick={ this.changeQuestion }
+
                 >
                   Próximo
-                </button>
-              )}
-            { index > MAX_INDEX_VALUE
-              && (<Feedback />)}
+                </button>)}
+            { index > MAX_INDEX_VALUE && (<Feedback />)}
           </main>
         )
     );
@@ -159,11 +170,12 @@ class Questions extends Component {
 
 Questions.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
+  isButtonDisabled: PropTypes.bool.isRequired,
   savePlayerName: PropTypes.func.isRequired,
   savePlayerEmail: PropTypes.func.isRequired,
   savePlayerAssertion: PropTypes.func.isRequired,
-  isButtonDisabled: PropTypes.bool.isRequired,
   seconds: PropTypes.number.isRequired,
+  clickedTime: PropTypes.number.isRequired,
   stopTimer: PropTypes.func.isRequired,
   startTimer: PropTypes.func.isRequired,
   saveTimeToStore: PropTypes.func.isRequired,
@@ -179,6 +191,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const mapStateToProps = (state) => ({
   storeToken: state.token,
+  clickedTime: state.tempo.time,
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Questions));

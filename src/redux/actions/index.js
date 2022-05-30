@@ -19,15 +19,17 @@ export const saveTokenAction = (token) => ({
   type: TOKEN,
   token,
 });
-export const saveTimeAction = (secondsToStore) => ({
+
+export const saveTimeAction = (time) => ({
   type: SET_TIME_ANSWER,
-  secondsToStore,
+  time,
 });
 
 export const savePlayerAssertionAction = (assertions) => ({
   type: SET_PLAYER_ASSERTIONS,
   assertions,
 });
+
 export const saveScoreAction = (score) => ({
   type: SET_PLAYER_SCORE,
   score,

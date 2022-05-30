@@ -14,7 +14,6 @@ export default class Button extends Component {
         disabled={ isButtonDisabled }
         data-testid={ answerRorW }
         onClick={ onClickFunction }
-
       >
         { answer }
       </button>
