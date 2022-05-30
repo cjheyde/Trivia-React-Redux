@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 export default class Button extends Component {
   render() {
     const { buttonId, buttonClass, answerRorW, buttonKey, onClickFunction,
-      answer } = this.props;
+      answer, isButtonDisabled } = this.props;
     return (
       <button
         id={ buttonId }
         type="button"
         className={ buttonClass }
+        disabled={ isButtonDisabled }
         data-testid={ answerRorW }
         key={ buttonKey }
         onClick={ onClickFunction }
