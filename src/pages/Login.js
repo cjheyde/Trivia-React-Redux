@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
-  savePlayerNameAct,
-  savePlayerEmailAct,
+  savePlayerNameAction,
+  savePlayerEmailAction,
   saveTokenAction,
 } from '../redux/actions/index';
 // import logo from '../trivia.png';
@@ -133,8 +133,8 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  savePlayerName: (name) => dispatch(savePlayerNameAct(name)),
-  savePlayerEmail: (email) => dispatch(savePlayerEmailAct(email)),
+  savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
+  savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
   saveToken: (token) => dispatch(saveTokenAction(token)),
 });
 

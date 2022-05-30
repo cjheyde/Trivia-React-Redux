@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getQuestionsFromAPI from '../services/api';
 import myScore from './Score';
-import { savePlayerEmailAct, savePlayerNameAct,
-  savePlayerAssAct, saveScoreAction } from '../redux/actions';
+import { savePlayerEmailAction, savePlayerNameAction,
+  savePlayerAssertionAction, saveScoreAction } from '../redux/actions';
 import '../css/Questions.css';
 import Feedback from '../pages/Feedback';
-import Button from './Button';
+import BooleanBtn from './BooleanBtn';
+import MultipleBtn from './MultipleBtn';
 
 class Questions extends Component {
   constructor() {
@@ -62,21 +63,9 @@ class Questions extends Component {
     history.push('/');
   }
 
-  shuffleAnswers = () => {
-    const { questionsArray, index } = this.state;
-    const rightAnswer = questionsArray[index].correct_answer;
-    const wrongAnswers = questionsArray[index].incorrect_answers;
-    const allAnswers = [...wrongAnswers, rightAnswer];
-    const LIMIT_VALUE = 0.5;
-    const shuffledArray = allAnswers.sort(() => Math.random() - LIMIT_VALUE);
-    const { difficulty } = this.state;
-    localStorage.setItem('difficulty', difficulty);
-    return shuffledArray;
-  }
-
   onClickAnswer = ({ target }) => {
     const { scorePlayer, rightAnswer, assertionsToStore } = this.state;
-    const { saveScore, savePlayerAss, stopTimer, saveTimeToStore } = this.props;
+    const { saveScore, savePlayerAssertion, stopTimer, saveTimeToStore } = this.props;
     const score = rightAnswer === target.value ? myScore() : 0;
     this.setState((prevState) => ({
       okAnswer: true,
@@ -85,90 +74,11 @@ class Questions extends Component {
       saveScore(scorePlayer);
     });
     if (target.id === 'correctAnswer') {
-      savePlayerAss(assertionsToStore);
+      savePlayerAssertion(assertionsToStore);
       this.setState({ assertionsToStore: assertionsToStore + 1 });
     }
     saveTimeToStore();
     stopTimer();
-  }
-
-  renderMultiple = () => {
-    const shuffledAnswers = this.shuffleAnswers();
-    const { rightAnswer, okAnswer } = this.state;
-    const { isButtonDisabled } = this.props;
-    return (
-      <div data-testid="answer-options">
-        { shuffledAnswers.map((answer, mapIndex) => (
-          answer === rightAnswer
-            ? (
-              <Button              
-                value={ answer }
-                buttonId="correctAnswer"
-                buttonClass={ okAnswer && 'correctAnswer' }
-                answerRorW="correct-answer"
-                isButtonDisabled={ isButtonDisabled }
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
-            )
-            : (
-              <Button              
-                value={ answer }
-                buttonId="wrongAnswer"
-                buttonClass={ okAnswer && 'wrongAnswer' }
-                answerRorW="correct-answer"
-                isButtonDisabled={ isButtonDisabled }
-                buttonKey={ `wrong-answer-${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
-            )
-        )) }
-      </div>);
-  }
-
-  shuffleBoolean = () => {
-    const answers = ['True', 'False'];
-    const LIMIT_VALUE = 0.5;
-    const shuffledArray = answers.sort(() => Math.random() - LIMIT_VALUE);
-    return shuffledArray;
-  }
-
-  renderBoolean = () => {
-    const shuffledAnswers = this.shuffleBoolean();
-    const { rightAnswer, okAnswer } = this.state;
-    const { isButtonDisabled } = this.props;
-    return (
-      <div data-testid="answer-options">
-        { shuffledAnswers.map((answer, mapIndex) => (
-          answer === rightAnswer
-            ? (
-              <Button
-                value={ answer }
-                buttonId="correctAnswer"
-                buttonClass={ okAnswer && 'correctAnswer' }
-                answerRorW="correct-answer"
-                isButtonDisabled={ isButtonDisabled }
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
-            )
-            : (
-              <Button
-                value={ answer }
-                buttonId="wrongAnswer"
-                buttonClass={ okAnswer && 'wrongAnswer' }
-                answerRorW="wrong-answer"
-                isButtonDisabled={ isButtonDisabled }
-                buttonKey={ `answerBtn${mapIndex}` }
-                onClickFunction={ this.onClickAnswer }
-                answer={ answer }
-              />
-            )
-        )) }
-      </div>);
   }
 
   changeQuestion = () => {
@@ -196,8 +106,8 @@ class Questions extends Component {
 
   render() {
     const { question, difficulty, category, type, index, isFetching,
-      nextButton } = this.state;
-    const { seconds } = this.props;
+      nextButton, rightAnswer, okAnswer, questionsArray } = this.state;
+    const { seconds, isButtonDisabled } = this.props;
     const MAX_INDEX_VALUE = 4;
     return (
       isFetching ? <h1>Loading</h1>
@@ -207,8 +117,23 @@ class Questions extends Component {
             <h4 data-testid="question-category">{ `Category: ${category}` }</h4>
             <h3 data-testid="question-text">{ question }</h3>
             { type === 'multiple'
-              ? this.renderMultiple()
-              : this.renderBoolean() }
+              ? (
+                <MultipleBtn
+                  isButtonDisabled={ isButtonDisabled }
+                  okAnswer={ okAnswer }
+                  rightAnswer={ rightAnswer }
+                  onClickAnswer={ this.onClickAnswer }
+                  questionsArray={ questionsArray }
+                  index={ index }
+                  difficulty={ difficulty }
+                />)
+              : (
+                <BooleanBtn
+                  isButtonDisabled={ isButtonDisabled }
+                  okAnswer={ okAnswer }
+                  rightAnswer={ rightAnswer }
+                  onClickAnswer={ this.onClickAnswer }
+                />)}
             <div>
               Tempo:
               {' '}
@@ -236,7 +161,7 @@ Questions.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
   savePlayerName: PropTypes.func.isRequired,
   savePlayerEmail: PropTypes.func.isRequired,
-  savePlayerAss: PropTypes.func.isRequired,
+  savePlayerAssertion: PropTypes.func.isRequired,
   isButtonDisabled: PropTypes.bool.isRequired,
   seconds: PropTypes.number.isRequired,
   stopTimer: PropTypes.func.isRequired,
@@ -248,9 +173,9 @@ Questions.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
   savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
-  saveScore: (score) => dispatch(saveScoreAction(score)),  
-  savePlayerAss: (assertionsToStore) => dispatch(savePlayerAssAct(assertionsToStore)),
-};
+  saveScore: (score) => dispatch(saveScoreAction(score)),
+  savePlayerAssertion: (assertions) => dispatch(savePlayerAssertionAction(assertions)),
+});
 
 const mapStateToProps = (state) => ({
   storeToken: state.token,
