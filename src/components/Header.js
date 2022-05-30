@@ -5,45 +5,6 @@ import { connect } from 'react-redux';
 import '../css/Header.css';
 
 class Header extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     difficultyValue: ['3', '2', '1'],
-  //     timer: 30,
-  //     scorePoints: 0,
-  //   };
-  // }
-
-  // myScore = () => {
-  //   const { difficulty } = this.props;
-  //   const { difficultyValue, timer, scorePoints } = this.state;
-  //   const constantValue = 10;
-
-  //   if (difficulty === 'hard') {
-  //     const playerScore = constantValue + (timer * Number(difficultyValue[0]));
-  //     this.setState((prevState) => (
-  //       { scorePoints: [...prevState.scorePoints + playerScore] }));
-  //     localStorage.setItem('score', JSON.stringify(scorePoints));
-  //     return scorePoints;
-  //   }
-
-  //   if (difficulty === 'medium') {
-  //     const playerScore = constantValue + (timer * Number(difficultyValue[1]));
-  //     this.setState((prevState) => (
-  //       { scorePoints: [...prevState.scorePoints + playerScore] }));
-  //     localStorage.setItem('score', JSON.stringify(scorePoints));
-  //     return scorePoints;
-  //   }
-
-  //   if (difficulty === 'easy') {
-  //     const playerScore = constantValue + (timer * Number(difficultyValue[2]));
-  //     this.setState((prevState) => (
-  //       { scorePoints: [...prevState.scorePoints + playerScore] }));
-  //     localStorage.setItem('score', JSON.stringify(scorePoints));
-  //     return scorePoints;
-  //   }
-  // }
-
   render() {
     const { gravatarEmailFromStore, nameFromStore, scoreFromStore } = this.props;
     // console.log(gravatarEmailFromStore, nameFromStore);
@@ -55,13 +16,11 @@ class Header extends Component {
           alt="Imagem do jogador"
           data-testid="header-profile-picture"
         />
-
         <h2
           data-testid="header-player-name"
         >
           {nameFromStore}
         </h2>
-
         <fieldset>
           <div
             data-testid="header-score"
@@ -78,13 +37,13 @@ const mapStateToProps = (store) => ({
   gravatarEmailFromStore: store.player.gravatarEmail,
   nameFromStore: store.player.name,
   scoreFromStore: store.player.score,
-  difficulty: store.player.difficulty,
 });
 
 Header.propTypes = {
   gravatarEmailFromStore: propTypes.string,
   nameFromStore: propTypes.string,
   scoreFromStore: propTypes.number,
+  dispatch: propTypes.func,
 }.isRequired;
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps)(Header);

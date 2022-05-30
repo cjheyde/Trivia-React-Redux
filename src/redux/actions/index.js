@@ -19,7 +19,6 @@ export const saveTokenAction = (token) => ({
   type: TOKEN,
   token,
 });
-
 export const saveTimeAct = (secondsToStore) => ({
   type: SET_TIME_ANSWER,
   secondsToStore,
@@ -29,7 +28,7 @@ export const savePlayerAssAct = (assertions) => ({
   type: SET_PLAYER_ASSERTIONS,
   assertions,
 });
-
+// export const saveScoreAction = (score) => ({
 export const savePlayerScoreAct = (score) => ({
   type: SET_PLAYER_SCORE,
   score,

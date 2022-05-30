@@ -3,8 +3,9 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import getQuestionsFromAPI from '../services/api';
+import myScore from './Score';
 import { savePlayerEmailAct, savePlayerNameAct,
-  savePlayerAssAct } from '../redux/actions';
+  savePlayerAssAct, saveScoreAction } from '../redux/actions';
 import '../css/Questions.css';
 import Feedback from '../pages/Feedback';
 import Button from './Button';
@@ -23,6 +24,7 @@ class Questions extends Component {
       isFetching: false,
       okAnswer: false,
       nextButton: false,
+      scorePlayer: 0,
       assertionsToStore: 1,
     };
   }
@@ -67,13 +69,21 @@ class Questions extends Component {
     const allAnswers = [...wrongAnswers, rightAnswer];
     const LIMIT_VALUE = 0.5;
     const shuffledArray = allAnswers.sort(() => Math.random() - LIMIT_VALUE);
+    const { difficulty } = this.state;
+    localStorage.setItem('difficulty', difficulty);
     return shuffledArray;
   }
 
   onClickAnswer = ({ target }) => {
-    const { assertionsToStore } = this.state;
-    const { savePlayerAss, stopTimer, saveTimeToStore } = this.props;
-    this.setState({ okAnswer: true, nextButton: true });
+    const { scorePlayer, rightAnswer, assertionsToStore } = this.state;
+    const { saveScore, savePlayerAss, stopTimer, saveTimeToStore } = this.props;
+    const score = rightAnswer === target.value ? myScore() : 0;
+    this.setState((prevState) => ({
+      okAnswer: true,
+      scorePlayer: prevState.scorePlayer + score,
+      nextButton: true }), () => {
+      saveScore(scorePlayer);
+    });
     if (target.id === 'correctAnswer') {
       savePlayerAss(assertionsToStore);
       this.setState({ assertionsToStore: assertionsToStore + 1 });
@@ -86,13 +96,13 @@ class Questions extends Component {
     const shuffledAnswers = this.shuffleAnswers();
     const { rightAnswer, okAnswer } = this.state;
     const { isButtonDisabled } = this.props;
-
     return (
       <div data-testid="answer-options">
         { shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
-              <Button
+              <Button              
+                value={ answer }
                 buttonId="correctAnswer"
                 buttonClass={ okAnswer && 'correctAnswer' }
                 answerRorW="correct-answer"
@@ -103,7 +113,8 @@ class Questions extends Component {
               />
             )
             : (
-              <Button
+              <Button              
+                value={ answer }
                 buttonId="wrongAnswer"
                 buttonClass={ okAnswer && 'wrongAnswer' }
                 answerRorW="correct-answer"
@@ -134,6 +145,7 @@ class Questions extends Component {
           answer === rightAnswer
             ? (
               <Button
+                value={ answer }
                 buttonId="correctAnswer"
                 buttonClass={ okAnswer && 'correctAnswer' }
                 answerRorW="correct-answer"
@@ -145,6 +157,7 @@ class Questions extends Component {
             )
             : (
               <Button
+                value={ answer }
                 buttonId="wrongAnswer"
                 buttonClass={ okAnswer && 'wrongAnswer' }
                 answerRorW="wrong-answer"
@@ -162,17 +175,12 @@ class Questions extends Component {
     const { history } = this.props;
     const { index } = this.state;
     const FOUR = 4;
-
     this.setState((prevState) => ({
       index: prevState.index + 1,
       okAnswer: false,
       nextButton: false,
-    }), () => {
-      this.changeState();
-    });
-    if (index === FOUR) {
-      history.push('/feedback');
-    }
+    }), () => { this.changeState(); });
+    if (index === FOUR) { history.push('/feedback'); }
   }
 
   changeState = () => {
@@ -234,13 +242,15 @@ Questions.propTypes = {
   stopTimer: PropTypes.func.isRequired,
   startTimer: PropTypes.func.isRequired,
   saveTimeToStore: PropTypes.func.isRequired,
+  saveScore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  savePlayerName: (name) => dispatch(savePlayerNameAct(name)),
-  savePlayerEmail: (email) => dispatch(savePlayerEmailAct(email)),
+  savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
+  savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
+  saveScore: (score) => dispatch(saveScoreAction(score)),  
   savePlayerAss: (assertionsToStore) => dispatch(savePlayerAssAct(assertionsToStore)),
-});
+};
 
 const mapStateToProps = (state) => ({
   storeToken: state.token,
