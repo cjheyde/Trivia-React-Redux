@@ -2,14 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import {
-  savePlayerNameAct,
-  savePlayerEmailAct,
-  saveTokenAction,
-} from '../redux/actions/index';
-// import logo from '../trivia.png';
-// import '../App.css';
-// codado em pair programing All - Carla Heyde/Nata Abrahão/Paulo Bruno/Priscila Nogueira/Elaine Costa
+import { savePlayerNameAction, savePlayerEmailAction,
+  saveTokenAction } from '../redux/actions/index';
+import LogoTrivia from '../components/LogoTrivia';
 
 class Login extends Component {
   constructor() {
@@ -33,8 +28,6 @@ class Login extends Component {
     const regexEmail = /\S+@\S+\.\S+/;
     const enable = false;
     const disable = true;
-    // se for tudo true = valida o botao
-    // esse .test foi feito na aula do Yuri - nosso colega - repositorio: https://github.com/yuri-rc/trybe-login/blob/main/src/App.js
     this.setState({
       loginButtonDisabled: regexEmail.test(email)
         && name.length > 0 ? enable : disable,
@@ -71,6 +64,7 @@ class Login extends Component {
       fetching ? <h1>Loading</h1>
         : (
           <div className="App">
+            <LogoTrivia />
             <form className="login">
               <label htmlFor="email">
                 Email
@@ -96,17 +90,6 @@ class Login extends Component {
                   data-testid="input-player-name"
                 />
               </label>
-              {/* <Link to="/trivia">
-                <button
-                  type="button"
-                  name="login-button"
-                  disabled={ loginButtonDisabled }
-                  data-testid="btn-play"
-                  onClick={ this.onSubmit }
-                >
-                  Entrar
-                </button>
-              </Link> */}
               <button
                 type="button"
                 name="login-button"
@@ -133,12 +116,10 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  savePlayerName: (name) => dispatch(savePlayerNameAct(name)),
-  savePlayerEmail: (email) => dispatch(savePlayerEmailAct(email)),
+  savePlayerName: (name) => dispatch(savePlayerNameAction(name)),
+  savePlayerEmail: (email) => dispatch(savePlayerEmailAction(email)),
   saveToken: (token) => dispatch(saveTokenAction(token)),
 });
-
-export default connect(null, mapDispatchToProps)(Login);
 
 Login.propTypes = {
   savePlayerName: PropTypes.func.isRequired,
@@ -146,3 +127,5 @@ Login.propTypes = {
   saveToken: PropTypes.func.isRequired,
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
+
+export default connect(null, mapDispatchToProps)(Login);

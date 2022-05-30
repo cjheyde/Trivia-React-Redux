@@ -1,4 +1,4 @@
-const myScore = () => {
+export const myScore = () => {
   const difficultyValue = ['3', '2', '1'];
   const timer = 30;
   const VALUE = 10;
@@ -19,4 +19,16 @@ const myScore = () => {
   return scorePoints;
 };
 
-export default myScore;
+export const invalidCode = (history, savePlayerEmail, savePlayerName) => {
+  localStorage.setItem('token', '');
+  savePlayerEmail('');
+  savePlayerName('');
+  history.push('/');
+};
+
+export const shuffleBoolean = () => {
+  const answers = ['True', 'False'];
+  const LIMIT_VALUE = 0.5;
+  const shuffledArray = answers.sort(() => Math.random() - LIMIT_VALUE);
+  return shuffledArray;
+};

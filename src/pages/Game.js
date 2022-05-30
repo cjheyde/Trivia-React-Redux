@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
-import { saveTimeAct } from '../redux/actions';
+import { saveTimeAction } from '../redux/actions';
 
 class Game extends Component {
   constructor() {
@@ -65,7 +65,7 @@ Game.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  saveTime: (secondsToStore) => dispatch(saveTimeAct(secondsToStore)),
+  saveTime: (secondsToStore) => dispatch(saveTimeAction(secondsToStore)),
 });
 
 export default connect(null, mapDispatchToProps)(Game);
