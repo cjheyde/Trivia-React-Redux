@@ -171,6 +171,7 @@ class Questions extends Component {
       okAnswer: false,
       nextButton: false,
     }), () => { this.changeState(); });
+
     if (index === FOUR) { history.push('/feedback'); }
   }
 
