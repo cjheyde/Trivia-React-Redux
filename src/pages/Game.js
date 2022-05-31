@@ -12,14 +12,20 @@ class Game extends Component {
   }
 
   startTimer = () => {
-    const { seconds } = this.state;
-    let { timer } = this.state;
     const MIL = 1000;
-    if (timer === 0 && seconds > 0) { timer = setInterval(this.countDown, MIL); }
+    this.setState({
+      seconds: 30,
+      isButtonDisabled: false,
+    }, () => {
+      this.setState({
+        timer: setInterval(this.countDown, MIL),
+      });
+    });
   }
 
   stopTimer = () => {
-    clearInterval(this.timer);
+    const { timer } = this.state;
+    clearInterval(timer);
   }
 
   countDown = () => {
@@ -31,7 +37,7 @@ class Game extends Component {
     }
     if (seconds === 0) {
       this.setState({ isButtonDisabled: true });
-      clearInterval(this.timer);
+      this.stopTimer();
     }
   }
 
@@ -39,7 +45,12 @@ class Game extends Component {
     const { seconds } = this.state;
     const { saveTime } = this.props;
     saveTime(seconds);
-    this.stopTimer();
+  }
+
+  disableBtn = () => {
+    this.setState({
+      isButtonDisabled: true,
+    });
   }
 
   render() {
@@ -53,6 +64,7 @@ class Game extends Component {
           saveTimeToStore={ this.saveTimeToStore }
           startTimer={ this.startTimer }
           stopTimer={ this.stopTimer }
+          disableBtn={ this.disableBtn }
         />
       </>
     );

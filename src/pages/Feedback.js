@@ -36,7 +36,7 @@ class Feedback extends Component {
       <header>
         <LogoTrivia />
         <Header />
-        <h3>{feedbackMessage}</h3>
+        <h3 data-testid="feedback-text">{feedbackMessage}</h3>
       </header>
     );
   }

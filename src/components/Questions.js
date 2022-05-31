@@ -59,7 +59,7 @@ class Questions extends Component {
   shuffleAnswers = (questionsArray) => {
     const { index } = this.state;
     const rightAnswer = questionsArray[index].correct_answer;
-    console.log(rightAnswer);
+    console.log('\nResposta:', rightAnswer);
     const wrongAnswers = questionsArray[index].incorrect_answers;
     const allAnswers = [...wrongAnswers, rightAnswer];
     const LIMIT_VALUE = 0.5;
@@ -69,13 +69,14 @@ class Questions extends Component {
   }
 
   onClickAnswer = async ({ target }) => {
-    const { rightAnswer, assertionsToStore, nextButton } = this.state;
-    const { saveScore, savePlayerAssertion, stopTimer, saveTimeToStore } = this.props;
-    console.log(stopTimer);
-    await stopTimer();
+    const { rightAnswer, assertionsToStore } = this.state;
+    const { saveScore, savePlayerAssertion, stopTimer,
+      saveTimeToStore, disableBtn } = this.props;
+    stopTimer();
+    disableBtn();
     await saveTimeToStore();
     const { clickedTime } = this.props;
-    console.log(clickedTime, rightAnswer, nextButton);
+    console.log('clickedTime:', clickedTime);
     const score = rightAnswer === target.value ? myScore(clickedTime) : 0;
     this.setState((prevState) => ({
       okAnswer: true,
@@ -85,7 +86,6 @@ class Questions extends Component {
       const { scorePlayer } = this.state;
       saveScore(scorePlayer);
     });
-    console.log(nextButton);
     if (target.id === 'correctAnswer') {
       savePlayerAssertion(assertionsToStore);
       this.setState({ assertionsToStore: assertionsToStore + 1 });
@@ -105,13 +105,17 @@ class Questions extends Component {
 
   changeState = () => {
     const { index, questionsArray } = this.state;
+    const { startTimer } = this.props;
+    const shuffle = this.shuffleAnswers(questionsArray);
     this.setState({
       difficulty: questionsArray[index].difficulty,
       question: questionsArray[index].question,
       category: questionsArray[index].category,
       type: questionsArray[index].type,
       rightAnswer: questionsArray[index].correct_answer,
+      shuffledAnswers: shuffle,
     });
+    startTimer();
   }
 
   render() {
@@ -169,18 +173,19 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
-  isButtonDisabled: PropTypes.bool.isRequired,
-  savePlayerName: PropTypes.func.isRequired,
-  savePlayerEmail: PropTypes.func.isRequired,
-  savePlayerAssertion: PropTypes.func.isRequired,
-  seconds: PropTypes.number.isRequired,
-  clickedTime: PropTypes.number.isRequired,
-  stopTimer: PropTypes.func.isRequired,
-  startTimer: PropTypes.func.isRequired,
-  saveTimeToStore: PropTypes.func.isRequired,
-  saveScore: PropTypes.func.isRequired,
-};
+  history: PropTypes.objectOf(PropTypes.any),
+  isButtonDisabled: PropTypes.bool,
+  savePlayerName: PropTypes.func,
+  savePlayerEmail: PropTypes.func,
+  savePlayerAssertion: PropTypes.func,
+  seconds: PropTypes.number,
+  clickedTime: PropTypes.number,
+  stopTimer: PropTypes.func,
+  startTimer: PropTypes.func,
+  saveTimeToStore: PropTypes.func,
+  saveScore: PropTypes.func,
+  disableBtn: PropTypes.func,
+}.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
   savePlayerName: (name) => dispatch(savePlayerNameAction(name)),

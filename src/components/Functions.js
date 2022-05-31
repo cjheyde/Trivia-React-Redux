@@ -1,10 +1,8 @@
 export const myScore = (time) => {
-  console.log(time);
   const difficultyValue = ['3', '2', '1'];
   const VALUE = 10;
   let scorePoints = 0;
   const difficulty = localStorage.getItem('difficulty');
-  console.log(difficulty);
   if (difficulty === 'hard') {
     const playerScore = VALUE + (time * Number(difficultyValue[0]));
     scorePoints = playerScore;
@@ -17,7 +15,7 @@ export const myScore = (time) => {
     const playerScore = VALUE + (time * Number(difficultyValue[2]));
     scorePoints = playerScore;
   }
-  console.log('oi', scorePoints);
+  console.log('Pontos Ganhos:', scorePoints);
   return scorePoints;
 };
 

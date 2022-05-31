@@ -8,7 +8,6 @@ class Ranking extends Component {
     const { playerRanking } = this.props;
     const arrayPlayerInfo = Object.keys(playerRanking);
 
-    // console.log(arrayPlayerInfo);
     return (
       <div>
         <h1>Ranking das pontuações</h1>
