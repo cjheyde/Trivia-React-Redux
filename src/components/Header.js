@@ -9,7 +9,7 @@ class Header extends Component {
     const { gravatarEmailFromStore, nameFromStore, scoreFromStore } = this.props;
     const hashGerada = md5(gravatarEmailFromStore).toString();
     return (
-      <header className="loginData">
+      <header className="player-info">
         <img
           src={ `https://www.gravatar.com/avatar/${hashGerada}` }
           alt="Imagem do jogador"

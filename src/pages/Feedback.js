@@ -35,9 +35,9 @@ class Feedback extends Component {
     const { feedbackMessage } = this.state;
     const { score, assertionsFromStore } = this.props;
     return (
-      <header>
-        <LogoTrivia />
+      <main>
         <Header />
+        <LogoTrivia />
         <h2 data-testid="feedback-text">{feedbackMessage}</h2>
         <h3>Placar Final: Você fez</h3>
         <h3 data-testid="feedback-total-score">{ score }</h3>
@@ -65,7 +65,7 @@ class Feedback extends Component {
             Ranking
           </button>
         </Link>
-      </header>
+      </main>
     );
   }
 }
