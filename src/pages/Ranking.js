@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 class Ranking extends Component {
   render() {
-    const { playerRanking } = this.props;
-    const arrayPlayerInfo = Object.keys(playerRanking);
+    const infoFromLS = JSON.parse(localStorage.getItem('ranking'));
+    const sorted = infoFromLS.sort(({ score: a }, { score: b }) => b - a);
+    console.log(sorted);
 
     return (
-      <div>
+      <div className="ranking-list">
         <h1 data-testid="ranking-title">Ranking das pontuações</h1>
         <section>
           <ul>
             {
-              arrayPlayerInfo.map((playerInfo, index) => (
+              sorted.map((playerInfo, index) => (
                 <li key={ index }>
                   <img src={ playerInfo.picture } alt="img-player" />
                   <p data-testid={ `player-name-${index}` }>{playerInfo.name}</p>
@@ -38,17 +37,4 @@ class Ranking extends Component {
   }
 }
 
-const mapStateToProps = (store) => ({
-  playerRanking: store.player,
-});
-
-Ranking.propTypes = {
-  playerRanking: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    assertions: PropTypes.number.isRequired,
-    score: PropTypes.number.isRequired,
-    gravatarEmail: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-export default connect(mapStateToProps)(Ranking);
+export default Ranking;
