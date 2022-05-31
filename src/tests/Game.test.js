@@ -2,8 +2,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
-import { questionsResponseApi } from '../tests/ourMocks/ourQuestions';
-import { tokenResponseApi } from '../tests/ourMocks/ourToken';
+import { questionsResponseApi } from '../tests/helpers/ourMocks/ourQuestions';
+import { tokenResponseApi } from '../tests/helpers/ourMocks/ourToken';
 import App from '../App';
 
 // depois de tudo - limpa o mock
@@ -46,12 +46,13 @@ describe('Cobertura de testes da tela de Jogo ', () => {
     userEvent.type(email, 'player1@player1.com')
     expect(loginBtn).not.toBeDisabled();
     userEvent.click(loginBtn);
-
+    
+    const { pathname } = history.location; // verificar se preciso mudar de pagina
+    expect(pathname).toBe('/trivia'); // verificar se realmente preciso dessa linha
+    
     expect(global.fetch).toBeCalled();
     expect(global.fetch).toBeCalledWith('https://opentdb.com/api_token.php?command=request');
-    
-    const { pathname } = history.location; //verificar se preciso mudar de pagina
-    expect(pathname).toBe('/trivia'); //verificar se realmente preciso dessa linha
+
     }
     // antes de qlq coisa - faz essa funcao
     beforeEach(loginPageToTrivia);

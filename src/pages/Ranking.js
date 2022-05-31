@@ -10,7 +10,7 @@ class Ranking extends Component {
 
     return (
       <div>
-        <h1>Ranking das pontuações</h1>
+        <h1 data-testid="ranking-title">Ranking das pontuações</h1>
         <section>
           <ul>
             {
