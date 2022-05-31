@@ -1,23 +1,30 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import LogoTrivia from '../components/LogoTrivia';
+import '../css/Ranking.css';
 
 class Ranking extends Component {
   render() {
-    const { playerRanking } = this.props;
-    const arrayPlayerInfo = Object.keys(playerRanking);
+    const infoFromLS = JSON.parse(localStorage.getItem('ranking'));
+    const sorted = infoFromLS.sort(({ score: a }, { score: b }) => b - a);
+    console.log(sorted);
 
     return (
-      <div>
+      <div className="ranking-list">
         <h1 data-testid="ranking-title">Ranking das pontuações</h1>
+        <LogoTrivia />
         <section>
           <ul>
             {
-              arrayPlayerInfo.map((playerInfo, index) => (
-                <li key={ index }>
-                  <img src={ playerInfo.picture } alt="img-player" />
-                  <p data-testid={ `player-name-${index}` }>{playerInfo.name}</p>
+              sorted.map((playerInfo, index) => (
+                <li className="list" key={ index }>
+                  <img width="30px" src={ playerInfo.picture } alt="img-player" />
+                  <p
+                    className="name"
+                    data-testid={ `player-name-${index}` }
+                  >
+                    {playerInfo.name}
+                  </p>
                   <p data-testid={ `player-score-${index}` }>{playerInfo.score}</p>
                 </li>
               ))
@@ -26,6 +33,7 @@ class Ranking extends Component {
         </section>
         <Link to="/">
           <button
+            className="home-button"
             type="button"
             name="home-button"
             data-testid="btn-go-home"
@@ -38,17 +46,4 @@ class Ranking extends Component {
   }
 }
 
-const mapStateToProps = (store) => ({
-  playerRanking: store.player,
-});
-
-Ranking.propTypes = {
-  playerRanking: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    assertions: PropTypes.number.isRequired,
-    score: PropTypes.number.isRequired,
-    gravatarEmail: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-export default connect(mapStateToProps)(Ranking);
+export default Ranking;

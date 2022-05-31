@@ -4,11 +4,7 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
 class RankingNoLStorage extends Component {
-  componentDidMount() {
-    this.setRankingByPlayer();
-  }
-
-  setRankingByPlayer = () => {
+  setRankingByPlayer() {
     const { nameFromStore, scoreFromStore, gravatarEmailFromStore } = this.props;
     const hashGerada = md5(gravatarEmailFromStore).toString();
     const ranks = JSON.parse(localStorage.getItem('ranking'));

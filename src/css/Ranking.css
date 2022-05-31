@@ -1,0 +1,41 @@
+:root {
+
+  --headerColor: #063473;
+
+  --score: #ffec2d;
+}
+
+.ranking-list {
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+.home-button {
+  background-color: var(--headerColor);
+  border-radius: 8%;
+  color: var(--score);
+  font-family: fantasy , sans-serif;
+  font-size: large;
+  font-weight: 500;
+  height: 36px;
+  margin: 5px;
+  padding: 5px;
+  width: 140px;
+}
+
+.name {
+  margin: 5px;
+  padding: 5px;
+}
+
+.list {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  font-family: fantasy , sans-serif , serif;
+  font-weight: 300;
+  justify-content: center;
+  padding: 5px;
+}

@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 import LogoTrivia from '../components/LogoTrivia';
+import '../css/Feedback.css';
 
 class Feedback extends Component {
   constructor() {
@@ -16,6 +18,19 @@ class Feedback extends Component {
   componentDidMount() {
     const { assertionsFromStore } = this.props;
     this.setFeedbackMessage(assertionsFromStore);
+    this.setRankingByPlayer();
+  }
+
+  setRankingByPlayer = () => {
+    const { nameFromStore, scoreFromStore, gravatarEmailFromStore } = this.props;
+    const hashGerada = md5(gravatarEmailFromStore).toString();
+    const ranks = JSON.parse(localStorage.getItem('ranking'));
+    const playerRank = { name: nameFromStore, score: scoreFromStore, picture: `https://www.gravatar.com/avatar/${hashGerada}` };
+    if (ranks) {
+      localStorage.setItem('ranking', JSON.stringify([...ranks, playerRank]));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([playerRank]));
+    }
   }
 
   setFeedbackMessage(assertionsFromStore) {
@@ -37,34 +52,56 @@ class Feedback extends Component {
     return (
       <main>
         <Header />
-        <LogoTrivia />
-        <h2 data-testid="feedback-text">{feedbackMessage}</h2>
-        <h3>Placar Final: Você fez</h3>
-        <h3 data-testid="feedback-total-score">{ score }</h3>
-        <h3>pontos</h3>
-        <br />
-        <h3>Você acertou </h3>
-        <h3 data-testid="feedback-total-question">{ assertionsFromStore }</h3>
-        <h3>questões</h3>
-        <Link to="/">
-          <button
-            type="button"
-            name="play-again-button"
-            data-testid="btn-play-again"
+        <div className="feedbackCard">
+          <LogoTrivia />
+          <h2
+            className="feedback-message"
+            data-testid="feedback-text"
           >
-            Play Again
-          </button>
-        </Link>
-        <br />
-        <Link to="/ranking">
-          <button
-            type="button"
-            name="ranking-button"
-            data-testid="btn-ranking"
-          >
-            Ranking
-          </button>
-        </Link>
+            {feedbackMessage}
+          </h2>
+          <section className="score-message">
+            <span>Placar Final: Você fez</span>
+            <span
+              className="scorePoints"
+              data-testid="feedback-total-score"
+            >
+              { ` ${score} ` }
+            </span>
+            <span>pontos!</span>
+          </section>
+          <section className="assertions-message">
+            <span>Número de acertos:</span>
+            <span
+              className="assertions"
+              data-testid="feedback-total-question"
+            >
+              { ` ${assertionsFromStore} ` }
+            </span>
+          </section>
+          <Link to="/">
+            <button
+              className="play-again-button"
+              type="button"
+              name="play-again-button"
+              data-testid="btn-play-again"
+            >
+              Play Again
+            </button>
+          </Link>
+          <br />
+          <Link to="/ranking">
+            <button
+              className="ranking-button"
+              type="button"
+              name="ranking-button"
+              data-testid="btn-ranking"
+            >
+              Ranking
+            </button>
+          </Link>
+        </div>
+
       </main>
     );
   }
@@ -73,11 +110,17 @@ class Feedback extends Component {
 const mapStateToProps = (store) => ({
   assertionsFromStore: store.player.assertions,
   score: store.player.score,
+  gravatarEmailFromStore: store.player.gravatarEmail,
+  nameFromStore: store.player.name,
+  scoreFromStore: store.player.score,
 });
 
 Feedback.propTypes = {
   assertionsFromStore: PropTypes.number,
   score: PropTypes.number,
+  gravatarEmailFromStore: PropTypes.string,
+  nameFromStore: PropTypes.string,
+  scoreFromStore: PropTypes.number,
 }.isRequired;
 
 export default connect(mapStateToProps, null)(Feedback);
