@@ -40,15 +40,11 @@ class Feedback extends Component {
         <Header />
         <h2 data-testid="feedback-text">{feedbackMessage}</h2>
         <h3>Placar Final: Você fez</h3>
-        {' '}
         <h3 data-testid="feedback-total-score">{ score }</h3>
-        {' '}
         <h3>pontos</h3>
         <br />
         <h3>Você acertou </h3>
-        {' '}
         <h3 data-testid="feedback-total-question">{ assertionsFromStore }</h3>
-        {' '}
         <h3>questões</h3>
         <Link to="/">
           <button
@@ -57,6 +53,16 @@ class Feedback extends Component {
             data-testid="btn-play-again"
           >
             Play Again
+          </button>
+        </Link>
+        <br />
+        <Link to="/ranking">
+          <button
+            type="button"
+            name="ranking-button"
+            data-testid="btn-ranking"
+          >
+            Ranking
           </button>
         </Link>
       </header>
