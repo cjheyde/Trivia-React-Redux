@@ -33,11 +33,11 @@ class Feedback extends Component {
   render() {
     const { feedbackMessage } = this.state;
     return (
-      <header>
-        <LogoTrivia />
+      <main>
         <Header />
+        <LogoTrivia />
         <h3 data-testid="feedback-text">{feedbackMessage}</h3>
-      </header>
+      </main>
     );
   }
 }

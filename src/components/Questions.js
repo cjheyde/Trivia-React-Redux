@@ -10,6 +10,7 @@ import '../css/Questions.css';
 import Feedback from '../pages/Feedback';
 import BooleanBtn from './BooleanBtn';
 import MultipleBtn from './MultipleBtn';
+import Loading from './Loading';
 
 class Questions extends Component {
   constructor() {
@@ -124,12 +125,19 @@ class Questions extends Component {
     const { seconds, isButtonDisabled } = this.props;
     const MAX_INDEX_VALUE = 4;
     return (
-      isFetching ? <h1>Loading</h1>
+      isFetching ? <Loading />
         : (
-          <main>
-            <h4>{ `Difficulty: ${difficulty}` }</h4>
-            <h4 data-testid="question-category">{ `Category: ${category}` }</h4>
-            <h3 data-testid="question-text">{ question }</h3>
+          <main className="questionCard">
+            <div>
+              <h4
+                className="category"
+                data-testid="question-category"
+              >
+                { `Category: ${category}` }
+              </h4>
+              <h4 className="difficulty">{ `Difficulty: ${difficulty}` }</h4>
+            </div>
+            <h3 className="question" data-testid="question-text">{ question }</h3>
             { type === 'multiple'
               ? (
                 <MultipleBtn
@@ -150,7 +158,7 @@ class Questions extends Component {
                   rightAnswer={ rightAnswer }
                   onClickAnswer={ this.onClickAnswer }
                 />)}
-            <div>
+            <div className="timer">
               Tempo:
               {' '}
               {seconds}
@@ -161,7 +169,7 @@ class Questions extends Component {
                   type="button"
                   data-testid="btn-next"
                   onClick={ this.changeQuestion }
-
+                  className="next-button"
                 >
                   Próximo
                 </button>)}

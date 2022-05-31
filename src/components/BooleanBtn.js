@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from './Button';
+import '../css/Questions.css';
 
 export default class BooleanBtn extends Component {
   render() {
@@ -8,7 +9,7 @@ export default class BooleanBtn extends Component {
       onClickAnswer, shuffledAnswers } = this.props;
 
     return (
-      <div data-testid="answer-options">
+      <div className="answerCard" data-testid="answer-options">
         { shuffledAnswers.map((answer, mapIndex) => (
           answer === rightAnswer
             ? (
