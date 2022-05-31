@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import LogoTrivia from '../components/LogoTrivia';
-import { Link } from 'react-router-dom';
 
 class Feedback extends Component {
   constructor() {
