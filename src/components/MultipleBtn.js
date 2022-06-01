@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { decode } from 'he';
 import Button from './Button';
 import '../css/Questions.css';
 
@@ -13,7 +14,7 @@ export default class MultipleBtn extends Component {
           answer === rightAnswer
             ? (
               <Button
-                value={ answer }
+                value={ decode(answer) }
                 buttonId="correctAnswer"
                 buttonClass={ okAnswer ? 'correctAnswer' : 'answer' }
                 answerRorW="correct-answer"
@@ -25,7 +26,7 @@ export default class MultipleBtn extends Component {
             )
             : (
               <Button
-                value={ answer }
+                value={ decode(answer) }
                 buttonId="wrongAnswer"
                 buttonClass={ okAnswer ? 'wrongAnswer' : 'answer' }
                 answerRorW="wrong-answer"

@@ -11,6 +11,10 @@ class Game extends Component {
     this.state = { timer: 0, seconds: 30, isButtonDisabled: false };
   }
 
+  componentWillUnmount() {
+    this.stopTimer();
+  }
+
   startTimer = () => {
     const MIL = 1000;
     this.setState({
