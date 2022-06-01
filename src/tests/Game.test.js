@@ -20,13 +20,13 @@ const initialState = {
         json: async () => (questionsResponseApi)
       })); */
 
-
+describe('Cobertura de testes da tela do Game ', () => {
       
   // afterEach(() => jest.clearAllMocks());
   afterEach(() => jest.restoreAllMocks());
   beforeEach(() => jest.spyOn(global, 'fetch').mockResolvedValue({
     json: jest.fn().mockResolvedValue(questionsResponseApi),
-  }))
+  }));
   
   it('Verifica se as informações do nome do jogador, score e foto estao na tela do Game', async () => {
     renderWithRouterAndRedux(<App />, initialState, '/game')
