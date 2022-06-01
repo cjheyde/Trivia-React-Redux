@@ -65,3 +65,11 @@
   height: 36px;
   width: 140px;
 }
+
+.ranking-button:hover {
+  cursor: pointer;
+}
+
+.play-again-button:hover {
+  cursor: pointer;
+}

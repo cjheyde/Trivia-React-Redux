@@ -3,6 +3,8 @@
   --headerColor: #063473;
 
   --score: #ffec2d;
+
+  --disabled: rgba(122, 117, 117, 0.529);
 }
 
 .correctAnswer {
@@ -67,4 +69,8 @@
   margin: 5px;
   padding: 5px;
   width: 140px;
+}
+
+.next-button:hover {
+  cursor: pointer;
 }

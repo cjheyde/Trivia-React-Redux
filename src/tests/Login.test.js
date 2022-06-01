@@ -12,7 +12,7 @@ describe('Cobertura de testes da tela de Login', () => {
         renderWithRouterAndRedux(<App />);
 
         const loginBtn = screen
-          .getByRole('button', { name: /Entrar/i });
+          .getByRole('button', { name: /Play/i });
         expect(loginBtn).toBeInTheDocument();
         expect(loginBtn).toBeDisabled();
       });
@@ -21,9 +21,9 @@ describe('Cobertura de testes da tela de Login', () => {
         renderWithRouterAndRedux(<App />);
 
         const email = screen
-          .getByPlaceholderText(/Digite seu email/i);
+          .getByPlaceholderText(/Type your email/i);
         const name = screen
-          .getByPlaceholderText(/Digite seu nome/i);
+          .getByPlaceholderText(/Type your name/i);
           
         expect(email).toBeInTheDocument();
         expect(name).toBeInTheDocument();
@@ -33,11 +33,11 @@ describe('Cobertura de testes da tela de Login', () => {
         renderWithRouterAndRedux(<App />);
 
         const email = screen
-          .getByPlaceholderText(/Digite seu email/i);
+          .getByPlaceholderText(/Type your email/i);
         const name = screen
-          .getByPlaceholderText(/Digite seu nome/i);
+          .getByPlaceholderText(/Type your name/i);
         const loginBtn = screen
-          .getByRole('button', { name: /Entrar/i });
+          .getByRole('button', { name: /Play/i });
 
         expect(loginBtn).toBeInTheDocument();
         expect(loginBtn).toBeDisabled();
@@ -50,11 +50,11 @@ describe('Cobertura de testes da tela de Login', () => {
         const { history } = renderWithRouterAndRedux(<App />);
 
         const email = screen
-            .getByPlaceholderText(/Digite seu email/i);
+            .getByPlaceholderText(/Type your email/i);
         const name = screen
-            .getByPlaceholderText(/Digite seu nome/i);
+            .getByPlaceholderText(/Type your name/i);
         const loginBtn = screen
-            .getByRole('button', { name: /Entrar/i });
+            .getByRole('button', { name: /Play/i });
 
         expect(loginBtn).toBeInTheDocument();
         expect(loginBtn).toBeDisabled();
@@ -64,14 +64,14 @@ describe('Cobertura de testes da tela de Login', () => {
         userEvent.click(loginBtn);
 
         const { pathname } = history.location;
-        expect(pathname).toBe('/trivia');
+        expect(pathname).toBe('/game');
       });
 
       it('Teste se o botão de configurações existe e redireciona para as "Configurações"', () => {
         const { history } = renderWithRouterAndRedux(<App />);
 
         const configBtn = screen
-          .getByRole('button', { name: /Configurações/i });
+          .getByRole('button', { name: /Configuration/i });
 
         expect(configBtn).toBeInTheDocument();
         userEvent.click(configBtn);
@@ -94,11 +94,11 @@ describe('Cobertura de testes da tela de Login', () => {
         renderWithRouterAndRedux(<App />);
 
         const email = screen
-            .getByPlaceholderText(/Digite seu email/i);
+            .getByPlaceholderText(/Type your email/i);
         const name = screen
-            .getByPlaceholderText(/Digite seu nome/i);
+            .getByPlaceholderText(/Type your name/i);
         const loginBtn = screen
-            .getByRole('button', { name: /Entrar/i });
+            .getByRole('button', { name: /Play/i });
 
         expect(loginBtn).toBeInTheDocument();
         expect(loginBtn).toBeDisabled();

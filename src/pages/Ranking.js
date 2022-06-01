@@ -15,7 +15,7 @@ class Ranking extends Component {
           className="ranking"
           data-testid="ranking-title"
         >
-          Ranking das pontuações
+          Current Ranking
         </h1>
         <LogoTrivia />
         <section className="section-ranking">
@@ -49,7 +49,7 @@ class Ranking extends Component {
             name="home-button"
             data-testid="btn-go-home"
           >
-            Voltar ao inicio
+            Back to start
           </button>
         </Link>
       </div>

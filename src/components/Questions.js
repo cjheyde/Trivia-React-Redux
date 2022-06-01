@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { decode } from 'he';
 import getQuestionsFromAPI from '../services/api';
 import { myScore, invalidCode } from './Functions';
 import { savePlayerEmailAction, savePlayerNameAction,
@@ -137,7 +138,12 @@ class Questions extends Component {
               </h4>
               <h4 className="difficulty">{ `Difficulty: ${difficulty}` }</h4>
             </div>
-            <h3 className="question" data-testid="question-text">{ question }</h3>
+            <h3
+              className="question"
+              data-testid="question-text"
+            >
+              { decode(question) }
+            </h3>
             { type === 'multiple'
               ? (
                 <MultipleBtn
@@ -159,7 +165,7 @@ class Questions extends Component {
                   onClickAnswer={ this.onClickAnswer }
                 />)}
             <div className="timer">
-              Tempo:
+              Time:
               {' '}
               {seconds}
             </div>
@@ -171,7 +177,7 @@ class Questions extends Component {
                   onClick={ this.changeQuestion }
                   className="next-button"
                 >
-                  Próximo
+                  Next
                 </button>)}
             { index > MAX_INDEX_VALUE && (<Feedback />)}
           </main>
