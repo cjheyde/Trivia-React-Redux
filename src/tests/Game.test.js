@@ -20,7 +20,8 @@ const initialState = {
         json: async () => (questionsResponseApi)
       })); */
 
-describe('Cobertura de testes da tela de Jogo ', () => {
+
+      
   // afterEach(() => jest.clearAllMocks());
   afterEach(() => jest.restoreAllMocks());
   beforeEach(() => jest.spyOn(global, 'fetch').mockResolvedValue({

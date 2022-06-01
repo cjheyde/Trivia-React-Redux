@@ -5,58 +5,57 @@
   --score: #ffec2d;
 }
 
-.correctAnswer {
-  border: 3px solid rgb(6, 240, 15);
-}
-
-.wrongAnswer {
-  border: 3px solid red;
-}
-
-.borderNone {
-  border: 3px solid rgb(118, 118, 118);
-}
-
-.questionCard {
+.feedbackCard {
   align-items: center;
   display: flex;
   flex-flow: column nowrap;
-  font-family: fantasy , sans-serif , serif;
-  font-size: large;
   justify-content: center;
 }
 
-.difficulty {
-  font-family: fantasy , sans-serif , serif;
-  font-weight: 300;
-  margin: 5px;
-  margin-right: 1000px;
-  padding: 5px;
-}
-
-.category {
-  font-family: fantasy , sans-serif , serif;
-  font-weight: 300;
-  margin: 5px;
-  padding: 5px;
-}
-
-.question {
+.feedback-message {
   font-family: fantasy , sans-serif , serif;
   font-weight: 300;
   margin: 15px;
   padding: 15px;
 }
 
-.timer {
+.score-message {
   font-family: fantasy , sans-serif , serif;
   font-weight: 300;
-  margin: 5px;
-  margin-left: 1000px;
-  padding: 5px;
+  margin: 15px;
+  padding: 15px;
 }
 
-.next-button {
+.scorePoints {
+  color: var(--headerColor);
+}
+
+.assertions-message {
+  font-family: fantasy , sans-serif , serif;
+  font-weight: 300;
+  margin: 15px;
+  padding: 15px;
+}
+
+.assertions {
+  color: var(--headerColor);
+
+}
+
+.play-again-button {
+  background-color: var(--headerColor);
+  border-radius: 8%;
+  color: var(--score);
+  font-family: fantasy , sans-serif;
+  font-size: large;
+  font-weight: 500;
+  height: 36px;
+  margin: 5px;
+  padding: 5px;
+  width: 140px;
+}
+
+.ranking-button {
   background-color: var(--headerColor);
   border-radius: 8%;
   color: var(--score);

@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { savePlayerNameAction, savePlayerEmailAction,
   saveTokenAction } from '../redux/actions/index';
 import LogoTrivia from '../components/LogoTrivia';
+import '../css/Login.css';
+import Loading from '../components/Loading';
 // codado em pair programing All - Carla Heyde/Nata Abrahão/Paulo Bruno/Priscila Nogueira/Elaine Costa
 
 class Login extends Component {
@@ -62,14 +64,15 @@ class Login extends Component {
   render() {
     const { email, name, loginButtonDisabled, fetching } = this.state;
     return (
-      fetching ? <h1>Loading</h1>
+      fetching ? <Loading />
         : (
           <div className="App">
             <LogoTrivia />
             <form className="login">
-              <label htmlFor="email">
+              <label className="label" htmlFor="email">
                 Email
                 <input
+                  className="input"
                   type="email"
                   value={ email }
                   name="email"
@@ -79,9 +82,10 @@ class Login extends Component {
                   data-testid="input-gravatar-email"
                 />
               </label>
-              <label htmlFor="name">
+              <label className="label" htmlFor="name">
                 Nome
                 <input
+                  className="input"
                   type="text"
                   id="name"
                   value={ name }
@@ -92,6 +96,7 @@ class Login extends Component {
                 />
               </label>
               <button
+                className="button-submit"
                 type="button"
                 name="login-button"
                 disabled={ loginButtonDisabled }
@@ -100,16 +105,17 @@ class Login extends Component {
               >
                 Entrar
               </button>
+              <Link to="/config">
+                <button
+                  className="button-config"
+                  type="button"
+                  name="config-button"
+                  data-testid="btn-settings"
+                >
+                  Configurações
+                </button>
+              </Link>
             </form>
-            <Link to="/config">
-              <button
-                type="button"
-                name="config-button"
-                data-testid="btn-settings"
-              >
-                Configurações
-              </button>
-            </Link>
           </div>
         )
     );
