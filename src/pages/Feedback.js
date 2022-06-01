@@ -61,17 +61,17 @@ class Feedback extends Component {
             {feedbackMessage}
           </h2>
           <section className="score-message">
-            <span>Placar Final: Você fez</span>
+            <span>Final score: You did</span>
             <span
               className="scorePoints"
               data-testid="feedback-total-score"
             >
               { ` ${score} ` }
             </span>
-            <span>pontos!</span>
+            <span>points!</span>
           </section>
           <section className="assertions-message">
-            <span>Número de acertos:</span>
+            <span>Assertions:</span>
             <span
               className="assertions"
               data-testid="feedback-total-question"

@@ -20,13 +20,13 @@ class Header extends Component {
             className="name"
             data-testid="header-player-name"
           >
-            Jogador:
+            Player:
             {' '}
             {nameFromStore}
           </h3>
         </div>
         <h3 className="header-score">
-          Pontos:
+          Points:
           {' '}
           <div
             data-testid="header-score"

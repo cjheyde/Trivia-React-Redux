@@ -33,6 +33,10 @@
   width: 140px;
 }
 
+.home-button:hover {
+  cursor: pointer;
+}
+
 .name {
   margin: 5px;
   padding: 5px;

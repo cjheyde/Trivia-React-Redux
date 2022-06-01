@@ -83,7 +83,7 @@ class Login extends Component {
                 />
               </label>
               <label className="label" htmlFor="name">
-                Nome
+                Name
                 <input
                   className="input"
                   type="text"
@@ -103,7 +103,7 @@ class Login extends Component {
                 data-testid="btn-play"
                 onClick={ this.onSubmit }
               >
-                Entrar
+                Play
               </button>
               <Link to="/config">
                 <button
@@ -112,7 +112,7 @@ class Login extends Component {
                   name="config-button"
                   data-testid="btn-settings"
                 >
-                  Configurações
+                  Configuration
                 </button>
               </Link>
             </form>
