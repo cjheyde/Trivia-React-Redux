@@ -12,6 +12,16 @@
   justify-content: center;
 }
 
+.section-ranking {
+  margin: 20px;
+  padding: 20px;
+}
+
+.ranking {
+  margin: 20px;
+  padding: 20px;
+}
+
 .home-button {
   background-color: var(--headerColor);
   border-radius: 8%;
@@ -20,9 +30,11 @@
   font-size: large;
   font-weight: 500;
   height: 36px;
-  margin: 5px;
-  padding: 5px;
   width: 140px;
+}
+
+.home-button:hover {
+  cursor: pointer;
 }
 
 .name {
@@ -32,10 +44,15 @@
 
 .list {
   align-items: center;
+  background-color: var(--headerColor);
+  border-radius: 30% 0;
+  color: var(--score);
   display: flex;
   flex-flow: row nowrap;
   font-family: fantasy , sans-serif , serif;
   font-weight: 300;
+  height: 40px;
   justify-content: center;
+  margin: 5px;
   padding: 5px;
 }

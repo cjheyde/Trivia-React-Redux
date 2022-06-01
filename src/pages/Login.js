@@ -77,20 +77,20 @@ class Login extends Component {
                   value={ email }
                   name="email"
                   id="email"
-                  placeholder="Digite seu email"
+                  placeholder="Type your email"
                   onChange={ this.handleChange }
                   data-testid="input-gravatar-email"
                 />
               </label>
               <label className="label" htmlFor="name">
-                Nome
+                Name
                 <input
                   className="input"
                   type="text"
                   id="name"
                   value={ name }
                   name="name"
-                  placeholder="Digite seu nome"
+                  placeholder="Type your name"
                   onChange={ this.handleChange }
                   data-testid="input-player-name"
                 />
@@ -103,7 +103,7 @@ class Login extends Component {
                 data-testid="btn-play"
                 onClick={ this.onSubmit }
               >
-                Entrar
+                Play
               </button>
               <Link to="/config">
                 <button
@@ -112,7 +112,7 @@ class Login extends Component {
                   name="config-button"
                   data-testid="btn-settings"
                 >
-                  Configurações
+                  Configuration
                 </button>
               </Link>
             </form>

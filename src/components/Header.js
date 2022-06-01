@@ -10,20 +10,23 @@ class Header extends Component {
     const hashGerada = md5(gravatarEmailFromStore).toString();
     return (
       <header className="player-info">
-        <img
-          src={ `https://www.gravatar.com/avatar/${hashGerada}` }
-          alt="Imagem do jogador"
-          data-testid="header-profile-picture"
-        />
-        <h3
-          data-testid="header-player-name"
-        >
-          Jogador:
-          {' '}
-          {nameFromStore}
-        </h3>
-        <h3>
-          Pontos:
+        <div className="infoPlayer">
+          <img
+            src={ `https://www.gravatar.com/avatar/${hashGerada}` }
+            alt="Imagem do jogador"
+            data-testid="header-profile-picture"
+          />
+          <h3
+            className="name"
+            data-testid="header-player-name"
+          >
+            Player:
+            {' '}
+            {nameFromStore}
+          </h3>
+        </div>
+        <h3 className="header-score">
+          Points:
           {' '}
           <div
             data-testid="header-score"

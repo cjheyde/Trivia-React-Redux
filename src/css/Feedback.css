@@ -10,6 +10,7 @@
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
+  margin: 3%;
 }
 
 .feedback-message {
@@ -21,6 +22,7 @@
 
 .score-message {
   font-family: fantasy , sans-serif , serif;
+  font-size: larger;
   font-weight: 300;
   margin: 15px;
   padding: 15px;
@@ -32,6 +34,7 @@
 
 .assertions-message {
   font-family: fantasy , sans-serif , serif;
+  font-size: larger;
   font-weight: 300;
   margin: 15px;
   padding: 15px;
@@ -39,7 +42,6 @@
 
 .assertions {
   color: var(--headerColor);
-
 }
 
 .play-again-button {
@@ -50,8 +52,6 @@
   font-size: large;
   font-weight: 500;
   height: 36px;
-  margin: 5px;
-  padding: 5px;
   width: 140px;
 }
 
@@ -63,7 +63,13 @@
   font-size: large;
   font-weight: 500;
   height: 36px;
-  margin: 5px;
-  padding: 5px;
   width: 140px;
+}
+
+.ranking-button:hover {
+  cursor: pointer;
+}
+
+.play-again-button:hover {
+  cursor: pointer;
 }
