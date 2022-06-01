@@ -1,13 +1,14 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
+import { questionsResponseApi } from '../tests/helpers/ourMocks/ourQuestions';
 import userEvent from '@testing-library/user-event';
-
-afterEach(() => jest.clearAllMocks());
 
 
 describe('Cobertura de testes da tela de Login', () => {
+  afterEach(() => jest.restoreAllMocks());
+
     it('Teste se o botão de login está inicialmente desabilitado', () => {
         renderWithRouterAndRedux(<App />);
 
@@ -46,7 +47,17 @@ describe('Cobertura de testes da tela de Login', () => {
         expect(loginBtn).not.toBeDisabled();
       });
 
-      it('Teste se o botão de login redireciona para a página "Trivia"', () => {
+      it('Teste se o botão de login redireciona para a página "Game"', async () => {
+        const tokenAPI = {
+          response_code: 0,
+          response_message: "Token Generated Successfully!",
+          token: "f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6"
+      };
+
+      jest.spyOn(global, 'fetch').mockResolvedValue({
+        json: jest.fn().mockResolvedValueOnce(tokenAPI).mockResolvedValue(questionsResponseApi)
+      });
+
         const { history } = renderWithRouterAndRedux(<App />);
 
         const email = screen
@@ -63,8 +74,16 @@ describe('Cobertura de testes da tela de Login', () => {
         expect(loginBtn).not.toBeDisabled();
         userEvent.click(loginBtn);
 
-        const { pathname } = history.location;
-        expect(pathname).toBe('/game');
+        const loadingElement = screen.getByText('Loading');
+        expect(loadingElement).toBeInTheDocument();
+        
+        await waitForElementToBeRemoved(
+          () => screen.getAllByText('Loading'),{ timeout: 3500 },
+        );
+        expect(loadingElement).not.toBeInTheDocument();
+        
+        expect(history.location.pathname).toBe('/game')
+
       });
 
       it('Teste se o botão de configurações existe e redireciona para as "Configurações"', () => {
@@ -80,19 +99,18 @@ describe('Cobertura de testes da tela de Login', () => {
         expect(pathname).toBe('/config');
       });
 
-      it('Teste se é a feita requisição do token e se ele é salvo no localStorage', () => {
+      it('Teste se é a feita requisição do token e se ele é salvo no localStorage', async () => {
         const tokenAPI = {
             response_code: 0,
             response_message: "Token Generated Successfully!",
             token: "f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6"
         };
 
-        global.fetch = jest.fn( async () => ({
-            json: async () => (tokenAPI),
-          }));
+        jest.spyOn(global, 'fetch').mockResolvedValue({
+          json: jest.fn().mockResolvedValueOnce(tokenAPI).mockResolvedValue(questionsResponseApi)
+        });
 
         renderWithRouterAndRedux(<App />);
-
         const email = screen
             .getByPlaceholderText(/Type your email/i);
         const name = screen
