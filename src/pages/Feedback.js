@@ -101,7 +101,6 @@ class Feedback extends Component {
             </button>
           </Link>
         </div>
-
       </main>
     );
   }
