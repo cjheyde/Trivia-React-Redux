@@ -18,8 +18,8 @@
 }
 
 .ranking {
-    margin: 20px;
-    padding: 20px; 
+  margin: 20px;
+  padding: 20px;
 }
 
 .home-button {
@@ -29,7 +29,7 @@
   font-family: fantasy , sans-serif;
   font-size: large;
   font-weight: 500;
-  height: 36px;  
+  height: 36px;
   width: 140px;
 }
 
@@ -41,7 +41,7 @@
 .list {
   align-items: center;
   background-color: var(--headerColor);
-  border-radius: 30% 0 30% 0;
+  border-radius: 30% 0;
   color: var(--score);
   display: flex;
   flex-flow: row nowrap;
