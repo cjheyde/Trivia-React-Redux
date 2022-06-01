@@ -34,6 +34,8 @@ describe('Cobertura de testes da tela de Jogo ', () => {
     const scoreEl = screen.getByTestId('header-score');
     const imgEl = screen.getByTestId('header-profile-picture');
 
+    await waitForElementToBeRemoved( () => screen.getByText('Loading'))
+
     expect(nameEl).toBeInTheDocument();
     expect(scoreEl).toBeInTheDocument();
     expect(imgEl).toBeInTheDocument();
@@ -43,12 +45,16 @@ describe('Cobertura de testes da tela de Jogo ', () => {
     localStorage.setItem('token', 'f00cb469ce38726ee00a7c6836761b0a4fb808181a125dcde6d50a9f3c9127b6')
     renderWithRouterAndRedux(<App />, initialState, '/game')
 
+    await waitForElementToBeRemoved( () => screen.getByText('Loading'))
+
     expect(global.fetch).toHaveBeenCalled();
     expect(global.fetch).toHaveBeenCalledWith(`https://opentdb.com/api.php?amount=5&token=${tokenResponseApi.token}`);
   });
 
   it('Verificar se tem um card com a dificuldade, categoria e questoes do jogo', async () => {
     renderWithRouterAndRedux(<App />, initialState, '/game')
+
+    await waitForElementToBeRemoved( () => screen.getByText('Loading'))
     
     const difficultyEl = await screen.findByRole('heading',
       { name: `Difficulty: ${questionsResponseApi.results[0].difficulty}` })
@@ -69,6 +75,8 @@ describe('Cobertura de testes da tela de Jogo ', () => {
     const answerEl =  await screen.findAllByTestId('answer-options');
     const answersEl1 = await screen.findAllByRole('button')
 
+    await waitForElementToBeRemoved( () => screen.getByText('Loading'))
+
     expect(answerEl[0]).toBeInTheDocument();
     expect(answersEl1[0]).toBeInTheDocument();
   });
@@ -76,39 +84,49 @@ describe('Cobertura de testes da tela de Jogo ', () => {
   it('Verificar se o temporizador está na tela ', async () => {
     renderWithRouterAndRedux(<App />, initialState, '/game')
 
+    await waitForElementToBeRemoved( () => screen.getByText('Loading'))
+
     const timerEl = await screen.findByText(/tempo/i)
     expect(timerEl).toBeInTheDocument('Tempo');
   });
 
-it('Verificar se o temporizador é igual a zero desabilita dos botoes ', async () => {
+it('Verificar se o temporizador é igual a zero e desabilita dos botoes ', async () => {
     renderWithRouterAndRedux(<App />, initialState, '/game')
 
-/*    const timerEl = await screen.findByText(/tempo/i)
+    jest.useFakeTimers();
+
+    await waitForElementToBeRemoved( () => screen.getByText('Loading'))
+
+    const setEl = setTimeout(() => {
+      expect(clearInterval).toHaveBeenCalled();
+    }, 1000)
+
+    jest.runAllTimers();
+    clearInterval(setEl)
     const answersEl1 = await screen.findByRole('button',
       { name: questionsResponseApi.results[0].correct_answer } )
-    const answersEl2 = await screen.findByRole('button',
-      { name: questionsResponseApi.results[0].incorrect_answers[0] } ) */
-
-      const timerEl =  await screen.findByText(/tempo/i)
-    const answersEl1 =  screen.getByRole('button',
-      { name: questionsResponseApi.results[0].correct_answer } )
-    const answersEl2 =  screen.getByRole('button',
-      { name: questionsResponseApi.results[0].incorrect_answers } )
       
+    const answersEl2 = await screen.findByRole('button',
+      { name: questionsResponseApi.results[0].incorrect_answers[0] } ) 
 
-      // await waitFor(() => expect(answersEl1).toBeDisabled() );
-      //expect(answersEl1).toBeDisabled()
-      //expect(answersEl2).toBeDisabled()
-
-      //expect(answersEl1).toBeDisabled();
-      //expect(answersEl2).toBeDisabled();
+      expect(answersEl1).toBeDisabled()
+      expect(answersEl2).toBeDisabled()
     
   });
 
-/*   it('Verificar se ao clicar, para o temporizador e é salvo do StoreGlobal ', () => {
-    const timerEl = screen.getByText(/tempo/i)
+/*    it('Verificar se ao clicar, para o temporizador e é salvo do StoreGlobal ', async () => {
+     renderWithRouterAndRedux(<App />, initialState, '/game')
+
+     
+
+     // jest.useFakeTimers();
+     
+     // const timerEl = await screen.findByText(/tempo/i)
+     // const spy  = jest.spyOn(global, 'clearInterval')
+
     
-  }); */
+
+  });  */
 
 
 });
