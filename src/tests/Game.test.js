@@ -99,6 +99,7 @@ describe('Cobertura de testes da tela de Jogo ', () => {
 
     const questionEl =  screen.getByTestId('question-text');
 
+<<<<<<< Updated upstream
     expect(questionEl).toBeInTheDocument()
     expect(questionEl).toContainEqual(questionsResponseApi.results[0].question)
     expect(questionEl).toEqual(questionsResponseApi.results[0].question)
@@ -125,5 +126,45 @@ describe('Cobertura de testes da tela de Jogo ', () => {
     
     expect(answerEl).toBeInTheDocument()
   });
+=======
+it('Verificar se o temporizador é igual a zero e desabilita dos botoes ', async () => {
+    renderWithRouterAndRedux(<App />, initialState, '/game')
+
+    jest.useFakeTimers();
+
+    await waitForElementToBeRemoved( () => screen.getByText('Loading'))
+
+    const setEl = setTimeout(() => {
+      expect(clearInterval).toHaveBeenCalled();
+    }, 1000)
+
+    jest.runAllTimers();
+    clearInterval(setEl)
+/*     const answersEl1 = await screen.findByRole('button',
+      { name: questionsResponseApi.results[0].correct_answer } )
+      
+    const answersEl2 = await screen.findByRole('button',
+      { name: questionsResponseApi.results[0].incorrect_answers[0] } ) 
+
+      expect(answersEl1).toBeDisabled()
+      expect(answersEl2).toBeDisabled() */
+    
+  });
+
+/*    it('Verificar se ao clicar, para o temporizador e é salvo do StoreGlobal ', async () => {
+     renderWithRouterAndRedux(<App />, initialState, '/game')
+
+     
+
+     // jest.useFakeTimers();
+     
+     // const timerEl = await screen.findByText(/tempo/i)
+     // const spy  = jest.spyOn(global, 'clearInterval')
+
+    
+
+  });  */
+
+>>>>>>> Stashed changes
 
 });

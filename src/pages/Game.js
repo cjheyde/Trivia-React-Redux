@@ -24,6 +24,7 @@ class Game extends Component {
   }
 
   stopTimer = () => {
+    console.log('stopTimer chamou');
     const { timer } = this.state;
     clearInterval(timer);
   }
@@ -31,6 +32,7 @@ class Game extends Component {
   countDown = () => {
     const { seconds } = this.state;
     if (seconds > 0) {
+      console.log('countDown', seconds);
       this.setState({
         seconds: seconds - 1,
       });
