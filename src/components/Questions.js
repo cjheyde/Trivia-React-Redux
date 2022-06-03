@@ -61,7 +61,7 @@ class Questions extends Component {
   shuffleAnswers = (questionsArray) => {
     const { index } = this.state;
     const rightAnswer = questionsArray[index].correct_answer;
-    console.log('\nResposta:', rightAnswer);
+    // console.log('\nResposta:', rightAnswer);
     const wrongAnswers = questionsArray[index].incorrect_answers;
     const allAnswers = [...wrongAnswers, rightAnswer];
     const LIMIT_VALUE = 0.5;

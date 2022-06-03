@@ -1,9 +1,8 @@
 import React from 'react';
-import { screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen  } from '@testing-library/react';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
 import { questionsResponseApi } from '../tests/helpers/ourMocks/ourQuestions';
-import { tokenResponseApi } from '../tests/helpers/ourMocks/ourToken';
 import App from '../App';
 
 const initialState = {
@@ -65,7 +64,7 @@ describe('Cobertura de testes da tela de FeedBacks ', () => {
     expect(history.location.pathname).toBe('/')
   });
 
-  it('Verifica se clicar no botao Ranking, é redirecionado para o Rancking e se o botao voltar ao inicio', () => {
+  it('Verifica se clicar no botao Ranking, é redirecionado para o Ranking e se o botao voltar ao inicio', () => {
     const { history } = renderWithRouterAndRedux(<App />, initialState, '/feedback');
     const buttonRankingTextEl = screen.getByTestId('btn-ranking');
     expect(buttonRankingTextEl).toBeInTheDocument();
@@ -78,22 +77,22 @@ describe('Cobertura de testes da tela de FeedBacks ', () => {
     expect(titleRanking).toBeInTheDocument();
 
     localStorage.setItem('ranking',
-    [{ name: "Elaine",
+    JSON.stringify([{ name: "Elaine",
       "picture": "https://www.gravatar.com/avatar/6f80331c610f5c976275adfb76853979",
         "score": 70
     },
     { name: "Jose",
       picture: "https://www.gravatar.com/avatar/6f80331c610f5c976275adfb76853979",
       score: 90
-    },
+    }, 
     { name: "Naiara",
       picture: "https://www.gravatar.com/avatar/6f80331c610f5c976275adfb76853979",
       score: 30
-    }]
+    }])
     );
-    const localStoEl = localStorage.getItem('ranking')
+    /* const localStoEl = localStorage.getItem('ranking')
     console.log(localStoEl[0]);
-    localStoEl.map((tes,index) => console.log(tes,index))
+    localStoEl.map((tes,index) => console.log(tes,index)) */
 
     const playerRankingEl1 = screen.getByTestId(`player-name-0`)
     const playerRankingEl2 = screen.getByTestId(`player-name-1`)
@@ -103,7 +102,7 @@ describe('Cobertura de testes da tela de FeedBacks ', () => {
     expect(playerRankingEl2).toBeInTheDocument()
     expect(playerRankingEl3).toBeInTheDocument()
 
-    const buttonBacktoLoginEl =  screen.getByRole('button', { name: /voltar ao inicio/i });
+    const buttonBacktoLoginEl =  screen.getByRole('button', { name: /back to start/i });
     expect(buttonBacktoLoginEl).toBeInTheDocument();
   });
 
@@ -113,15 +112,15 @@ describe('Cobertura de testes da tela de FeedBacks ', () => {
     expect(buttonRankingTextEl).toBeInTheDocument();
     userEvent.click(buttonRankingTextEl);
 
-    localStorage.setItem('ranking',
+     localStorage.setItem('ranking',
     [{ name: "Elaine",
       "picture": "https://www.gravatar.com/avatar/6f80331c610f5c976275adfb76853979",
         "score": 70
-    }])
+    }]) 
     const playerRankingEl2 = screen.getByTestId(`player-name-0`)
-    expect(playerRankingEl2).toBeInTheDocument()
+    expect(playerRankingEl2).toBeInTheDocument() 
 
-    const buttonBacktoLoginEl =  screen.getByRole('button', { name: /voltar ao inicio/i });
+    const buttonBacktoLoginEl =  screen.getByRole('button', { name: /back to start/i });
     expect(buttonBacktoLoginEl).toBeInTheDocument();
 
     userEvent.click(buttonBacktoLoginEl)
