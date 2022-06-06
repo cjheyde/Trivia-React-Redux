@@ -258,25 +258,5 @@ it('Verificar se o temporizador é igual a zero e desabilita dos botoes ', async
     expect(answersEl1).toHaveClass('wrongAnswer');
 
   });
-/*     it.only('Verificar se ao cliclar em cada botao correto, irá redirecionar para Feedback', async () => {
-    const { history } = renderWithRouterAndRedux(<App />, initialState, '/game')
-
-    await waitForElementToBeRemoved( () => screen.queryByText('Loading'))
-    const answersEl1 = await screen.findByTestId('correct-answer');
-    
-
-    const nextButtonEl = screen.queryByTestId('btn-next')
-
-    
-    questionsResponseApi.results.forEach((eachQuestion, index) => {
-      userEvent.click(answersEl1)
-      expect(screen.queryByText(eachQuestion.question[index])).toBeInTheDocument();
-      userEvent.click(nextButtonEl)
-      expect(nextButtonEl).toBeInTheDocument();
-
-     expect(index > 4).toBe('/feedback')
-    })
-    expect(history.location.pathname).toBe('/feedback')
-  });  */
  
 });
