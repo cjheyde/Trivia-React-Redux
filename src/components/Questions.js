@@ -61,7 +61,7 @@ class Questions extends Component {
   shuffleAnswers = (questionsArray) => {
     const { index } = this.state;
     const rightAnswer = questionsArray[index].correct_answer;
-    console.log('\nResposta:', rightAnswer);
+    // console.log('\nResposta:', rightAnswer);
     const wrongAnswers = questionsArray[index].incorrect_answers;
     const allAnswers = [...wrongAnswers, rightAnswer];
     const LIMIT_VALUE = 0.5;
@@ -78,7 +78,7 @@ class Questions extends Component {
     disableBtn();
     await saveTimeToStore();
     const { clickedTime } = this.props;
-    console.log('clickedTime:', clickedTime);
+    // console.log('clickedTime:', clickedTime);
     const score = rightAnswer === target.value ? myScore(clickedTime) : 0;
     this.setState((prevState) => ({
       okAnswer: true,

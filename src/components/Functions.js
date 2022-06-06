@@ -15,7 +15,7 @@ export const myScore = (time) => {
     const playerScore = VALUE + (time * Number(difficultyValue[2]));
     scorePoints = playerScore;
   }
-  console.log('Pontos Ganhos:', scorePoints);
+  // console.log('Pontos Ganhos:', scorePoints);
   return scorePoints;
 };
 
