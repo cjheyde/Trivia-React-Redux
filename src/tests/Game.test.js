@@ -105,52 +105,88 @@ describe('Cobertura de testes da tela do Game ', () => {
   it('Verificar se ao cliclar em todos botoes com as alternativas do jogo é redirecionado ao Feedback', async () => {
     const { history } = renderWithRouterAndRedux(<App />, initialState, '/game');
     const index = [0, 1, 2, 3, 4];
+    jest.useFakeTimers();
 
-    const answersEl1 = await screen.findByTestId('correct-answer');
+    await waitFor(() => {
+      jest.advanceTimersByTime(5000);
+    const answersEl1 = screen.getByTestId('correct-answer');
     expect(answersEl1).toBeInTheDocument();
     userEvent.click(answersEl1)
-    const nextButtonEl1 = await screen.findByRole('button', { name: /next/i })
+    const nextButtonEl1 = screen.getByRole('button', { name: /next/i })
     expect(nextButtonEl1).toBeInTheDocument();
     expect(index[0]).toBe(0);
+    // expect(answersEl1[0]).toBe(0)
     userEvent.click(nextButtonEl1);
+  });
 
-    const answersEl2 = await screen.findByTestId('correct-answer');
+    await waitFor(() => {
+      jest.advanceTimersByTime(5000);
+    const answersEl2 = screen.getByTestId('correct-answer');
     expect(answersEl2).toBeInTheDocument();
     userEvent.click(answersEl2)
-    const nextButtonE2 = await screen.findByRole('button', { name: /next/i })
+    const nextButtonE2 = screen.getByRole('button', { name: /next/i })
     expect(nextButtonE2).toBeInTheDocument();
     expect(index[1]).toBe(1);
     userEvent.click(nextButtonE2);
+  });
 
-    const answersEl3 = await screen.findByTestId('correct-answer');
+    await waitFor(() => {
+      jest.advanceTimersByTime(5000);
+    const answersEl3 = screen.getByTestId('correct-answer');
     expect(answersEl3).toBeInTheDocument();
     userEvent.click(answersEl3)
-    const nextButtonEl3 = await screen.findByRole('button', { name: /next/i })
+    const nextButtonEl3 = screen.getByRole('button', { name: /next/i })
     expect(nextButtonEl3).toBeInTheDocument();
     expect(index[2]).toBe(2);
     userEvent.click(nextButtonEl3);
+  });
 
-    const answersEl4 = await screen.findByTestId('correct-answer');
+    await waitFor(() => {
+      jest.advanceTimersByTime(5000);
+    const answersEl4 = screen.getByTestId('correct-answer');
     expect(answersEl4).toBeInTheDocument();
     userEvent.click(answersEl4)
-    const nextButtonEl4 = await screen.findByRole('button', { name: /next/i })
+    const nextButtonEl4 = screen.getByRole('button', { name: /next/i })
     expect(nextButtonEl4).toBeInTheDocument();
     expect(index[3]).toBe(3);
     userEvent.click(nextButtonEl4);
-
-    const answersEl5 = await screen.findByTestId('correct-answer');
+  });
+    
+    await waitFor(() => {
+      jest.advanceTimersByTime(5000);
+    const answersEl5 = screen.getByTestId('correct-answer');
     expect(answersEl5).toBeInTheDocument();
     userEvent.click(answersEl5)
-    const nextButtonEl5 = await screen.findByRole('button', { name: /next/i })
-    expect(nextButtonEl5).toBeInTheDocument();
     expect(index[4]).toBe(4);
+    const nextButtonEl5 = screen.getByRole('button', { name: /next/i })
+    expect(nextButtonEl5).toBeInTheDocument();
     userEvent.click(nextButtonEl5);
 
-    expect(index.length).toBe(5);
-
     expect(history.location.pathname).toBe('/feedback')
+  });
+    expect(index.length > 4).toBe(true)
+  
+    expect(index.length).toBe(5);
+    if(index.length <= 4) {
+      expect(history.location.pathname).toBe('/game')
+    }
+    if(index.length > 4) {
+      expect(history.location.pathname).toBe('/feedback')
+    } 
+
+    await waitFor(() => expect(history.location.pathname).toBe('/feedback'))
+
+    const feedbackTextEl = screen.getByTestId('feedback-text');
+    expect(feedbackTextEl).toHaveTextContent('Well Done!');
+
+    const totalScoreEl = screen.getByTestId('feedback-total-score');
+    const totalQuestionEl = screen.getByTestId('feedback-total-question');
+
+    expect(totalScoreEl).toBeInTheDocument();
+    expect(totalQuestionEl).toBeInTheDocument();
 
 
+    jest.useRealTimers();
   });
 
   it('Verificar se o temporizador está na tela ', async () => {
@@ -201,21 +237,46 @@ it('Verificar se o temporizador é igual a zero e desabilita dos botoes ', async
     
     expect(answersEl1).toHaveClass('correctAnswer');
   });
-/*   it.only('Verificar se ao cliclar em cada botao correto, irá redirecionar para Feedback', async () => {
+  it('Verificar se a resposta errada é respondida e não é somado no Header', async () => {
+    renderWithRouterAndRedux(<App />, initialState, '/game')
+
+    await waitForElementToBeRemoved( () => screen.queryByText('Loading'))
+
+    const answersEl1 = await screen.findByTestId('wrong-answer');
+    expect(answersEl1).toHaveClass('answer');
+    expect(answersEl1).toBeInTheDocument();
+    userEvent.click(answersEl1);
+    expect(answersEl1).toBeDisabled();
+    
+    const timerEl = await screen.findByText(/time/i)
+    expect(timerEl).toBeInTheDocument('Time');
+    expect(timerEl).toHaveTextContent('Time: 30');
+    
+    const scoreEl = await screen.findByTestId('header-score');
+    expect(scoreEl).toHaveTextContent(0);
+    
+    expect(answersEl1).toHaveClass('wrongAnswer');
+
+  });
+/*     it.only('Verificar se ao cliclar em cada botao correto, irá redirecionar para Feedback', async () => {
     const { history } = renderWithRouterAndRedux(<App />, initialState, '/game')
 
+    await waitForElementToBeRemoved( () => screen.queryByText('Loading'))
     const answersEl1 = await screen.findByTestId('correct-answer');
     
 
-    const nextButtonEl = await screen.findByRole('button', { name: /next/i })
-    console.log(nextButtonEl);
-    answersEl1.forEach((eachQuestion, index) => {
-      userEvent.click(answersEl1)
-      userEvent.click(nextButtonEl)
-      expect(screen.queryByText(eachQuestion[index])).toBeInTheDocument();
-      expect(index > 4).toBe('/feedback')
-      expect(history.location.pathname).toBe('/feedback')
-    });
-  }); */
+    const nextButtonEl = screen.queryByTestId('btn-next')
 
+    
+    questionsResponseApi.results.forEach((eachQuestion, index) => {
+      userEvent.click(answersEl1)
+      expect(screen.queryByText(eachQuestion.question[index])).toBeInTheDocument();
+      userEvent.click(nextButtonEl)
+      expect(nextButtonEl).toBeInTheDocument();
+
+     expect(index > 4).toBe('/feedback')
+    })
+    expect(history.location.pathname).toBe('/feedback')
+  });  */
+ 
 });
