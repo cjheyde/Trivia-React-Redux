@@ -78,7 +78,7 @@ class Questions extends Component {
     disableBtn();
     await saveTimeToStore();
     const { clickedTime } = this.props;
-    console.log('clickedTime:', clickedTime);
+    // console.log('clickedTime:', clickedTime);
     const score = rightAnswer === target.value ? myScore(clickedTime) : 0;
     this.setState((prevState) => ({
       okAnswer: true,
