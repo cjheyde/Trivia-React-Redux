@@ -8,7 +8,7 @@ This Project shows a leaderboard of all soccer teams in a competition, and lets 
 
 This is a full-stack JavaScript Project, but the front-end came already coded by the school [Trybe](https://www.betrybe.com/).
 
-![Project Leaderboard Image](assets/Project-leaderboard.png)
+![Project Leaderboard Image](assets/trivia-react-redux.webm)
 
 ![Project Leaderboard Image](assets/Project-leaderboard.png)
 
