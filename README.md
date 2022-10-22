@@ -10,7 +10,7 @@ This is a full-stack JavaScript Project, but the front-end came already coded by
 
 ![Project Leaderboard Image](assets/trivia-react-redux.webm)
 
-![Project Leaderboard Image](assets/Project-leaderboard.png)
+![Project Leaderboard Image](assets/Trivia-project-image.png)
 
 # How to run it:
 
