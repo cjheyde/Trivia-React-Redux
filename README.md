@@ -8,6 +8,7 @@ This is a front-end Project, part of [Trybe](https://www.betrybe.com/) school re
 - [Elaine Costa](https://github.com/ElaineCostadev)
 - [Paulo Bruno Machado Dias](https://github.com/devpbdias)
 - [Natã Abrahão Rodrigues](https://github.com/naaharo)
+- [Priscila Nogueira](https://github.com/pri-nogueira)
 - [Carla Heyde](https://github.com/cjheyde)
 - and we had an important contribution with our clock from the classmate [Rodrigo Takashi Condo](https://github.com/R-Takashi), thanks, Takashi! 🙏
 
