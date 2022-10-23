@@ -2,6 +2,8 @@
 
 This Project created a game of questions and answers based on Trivia game.
 
+This is a front-end Project, part of [Trybe](https://www.betrybe.com/) school requirements to move on in the studies.
+
 <strong> It was develped by following group members:</strong>  
 - [Elaine Costa](https://github.com/ElaineCostadev)
 - [Paulo Bruno Machado Dias](https://github.com/devpbdias)
@@ -13,11 +15,10 @@ This Project created a game of questions and answers based on Trivia game.
 <strong>Here we had to exercise:</strong> React.js, Redux, CSS, React Testing Library, Cypress usage and Trello.
 
 It was the best coding group I have ever had so far! We had complementary skills! Elaine was a master in testing, Paulo was the CSS person, and Natã was the one that could not sleep before solving the most complicated logic issues! I used my leadership experience and code my best to contribuite as much as I could! </br>
-This was the chance to learn how to open branches to code simultaneously, how to review codes, and how to merged them. </br>
+This was the chance to learn how to open branches to code simultaneously, how to review codes, and how to merge them. </br>
 We had daily meetings, decided on who should code what, and sometimes coded in pairs or even all four togehter!
 To have a better overview of the parts that needed coding and how to connect them, we used [Excalidraw](https://excalidraw.com/).
 
-This is a front-end Project, part of [Trybe](https://www.betrybe.com/) school requirements to move on in the studies.
 
 [trivia-react-redux.webm](https://user-images.githubusercontent.com/94486876/197364262-521dd20e-cb52-41ba-b156-090330ffe396.webm)
 
