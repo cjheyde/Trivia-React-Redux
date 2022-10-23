@@ -2,8 +2,8 @@
 
 This Project created a game of questions and answers based on Trivia game.
 
-It was the best coding group I have ever had so far! We had complementary skills! Elaine was a master in testing, Paulo was the CSS person, and Natã was the one that could not sleep before solving the most complicated logic issues! I used my leadership experience and code my best to contribuite as much as I could! 
-This was the chance to learn how to open branches to code simultaneously, how to review codes before merge them, and how to merged them to the main branch.
+It was the best coding group I have ever had so far! We had complementary skills! Elaine was a master in testing, Paulo was the CSS person, and Natã was the one that could not sleep before solving the most complicated logic issues! I used my leadership experience and code my best to contribuite as much as I could! </br>
+This was the chance to learn how to open branches to code simultaneously, how to review codes before merge them, and how to merged them to the main branch. </br>
 We had daily meetings, decided on who should code what, and sometimes coded in pairs or even all four of us togehter!
 To have a better overview of the parts that needed coding and how to connect them, we used [Excalidraw](https://excalidraw.com/).
 
