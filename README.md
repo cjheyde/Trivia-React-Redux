@@ -42,21 +42,33 @@ Open it on http://localhost:3000/ <br />
 Here you find a list of files and or folders according to the ownership.
 
 <details>
- <summary><strong>🙋‍♀️ I coded myself:</strong></summary><br />
-   
-  ```markdown  
-
-  README.md
-  ```
- 
- </details>
-
-
-<details>
- <summary><strong>🧑‍🤝‍🧑 I coded with another group member:</strong></summary><br />
+ <summary><strong>🧑‍🤝‍🧑 I coded with other group members:</strong></summary><br />
  
  ```markdown   
-
+ src/
+   components/
+     Button.js
+     Header.js
+     LogoTrivia.js
+     Questions.js
+   css/
+     Header.css
+     Questions.css
+   pages/
+     Feedback.js
+     Game.js
+     Login.js 
+     Ranking.js
+   redux/
+     actions/index.js 
+     reducers/
+       PlayerReducer.js
+       TimeReducer.js
+       index.js
+     store/index.js 
+   services/api.js
+   App.js 
+   index.js
  ```
  
  </details>
@@ -66,7 +78,28 @@ Here you find a list of files and or folders according to the ownership.
  <summary><strong>🧛 coded by other group members:</strong></summary><br />
    
  ```markdown  
-
+ src/
+   components/
+     BooleanBtn.js
+     Functions.js
+     Loading.js
+     MultipleBtn.js 
+   css/
+     Feedback.css
+     Loading.css
+     Login.css
+     Ranking.css
+   images/
+   pages/
+     Config.js 
+   redux/
+     reducers/
+       TokenReducer.js 
+   tests/
+     helpers/ourMocks/
+     Feedback.test.js
+     Game.test.js
+     Login.test.js
  ```
  
  </details>
