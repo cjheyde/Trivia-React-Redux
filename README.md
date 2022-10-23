@@ -1,16 +1,21 @@
 # Tivia Game - React-Redux 
 
-This Project shows a leaderboard of all soccer teams in a competition, and lets you add teams, matches, and scores.
+This Project created a game of questions and answers based on Trivia game.
 
-<strong>First commit:</strong> on Sep 27, 2022.
+<strong> It was develped by following group members:</strong>  
+- [Elaine Costa](https://github.com/ElaineCostadev)
+- [Paulo Bruno Machado Dias](https://github.com/devpbdias)
+- [Natã Abrahão Rodrigues](https://github.com/naaharo)
+- [Carla Heyde](https://github.com/cjheyde)
 
-<strong>Here I had to exercise:</strong> POO, TDD, Node.js, Express, Typescript, Sequelize, mySQL, docker.
+<strong>First commit:</strong> on May 24, 2022.
 
-This is a full-stack JavaScript Project, but the front-end came already coded by the school [Trybe](https://www.betrybe.com/).
+<strong>Here we had to exercise:</strong> React.js, Redux, CSS, React Testing Library, Cypress usage and Trello.
+
+This is a front-end Project, part of [Trybe](https://www.betrybe.com/) school requirements to move on in the studies.
 
 [trivia-react-redux.webm](https://user-images.githubusercontent.com/94486876/197364262-521dd20e-cb52-41ba-b156-090330ffe396.webm)
 
-![Project Leaderboard Image](assets/Trivia-project-image.png)
 
 # How to run it:
 
@@ -18,21 +23,13 @@ This is a full-stack JavaScript Project, but the front-end came already coded by
  <summary><strong> You need to have installed:</strong></summary><br />
  - Unix based Operational System <br />
  - node version >= 16.14.0 LTS <br />
- - Docker <br />
- - Docker-compose version >= 1.29.2 <br />
 </details>
  
 
-command: `npm install` <br />
-Use Docker, command: `npm run compose:up`
+command to install it: `npm install` <br />
+command to start it: `npm start`
 
-Open front-end on http://localhost:3000/login <br />
-
-  login info:
-*    login: admin@admin.com
-*    senha(password): secret_admin
-
-
+Open it on http://localhost:3000/ <br />
 
 # Files/Folders Ownership
 
@@ -42,23 +39,7 @@ Here you find a list of files and or folders according to the ownership.
  <summary><strong>🙋‍♀️ I coded myself:</strong></summary><br />
    
   ```markdown  
-  app/
-    backend/
-      src/ 
-        controllers/
-        database/
-          migrations/ (except 99999999999999-create-z.js)
-          Models/ (except ExampleModel.ts & index.ts)
-        helpers/
-        interfaces/
-        middlewares/ (except error.middleware.ts)
-        routes/
-        services/
-        tests/
-      Dockerfile
-    frontend/
-      Dockerfile
-      packages.npm
+
   README.md
   ```
  
@@ -66,29 +47,21 @@ Here you find a list of files and or folders according to the ownership.
 
 
 <details>
- <summary><strong>🧑‍🤝‍🧑 I coded partially - the scholl has coded some of it:</strong></summary><br />
+ <summary><strong>🧑‍🤝‍🧑 I coded with another group member:</strong></summary><br />
  
  ```markdown   
-  app/
-    backend/
-      src/
-        app.ts
+
  ```
  
  </details>
 
 
 <details>
- <summary><strong>🧛 coded by a teacher or a teammate:</strong></summary><br />
+ <summary><strong>🧛 coded by other group members:</strong></summary><br />
    
  ```markdown  
-  app/
-    backend/
-      helpers/
-        BcryptService.ts -> ref. school class code
-      middlewares/
-        error.middleware.ts -> ref. school classes material and project revision class code
-  ```
+
+ ```
  
  </details>
 
